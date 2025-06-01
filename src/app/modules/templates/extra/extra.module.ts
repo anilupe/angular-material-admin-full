@@ -34,26 +34,22 @@ import {MatChipsModule} from '@angular/material/chips';
 
 
 @NgModule({
-  declarations: [
-    CalendarPageComponent,
-    InvoicePageComponent,
-    GalleryPageComponent,
-    TimeLinePageComponent,
-    DayInfoComponent,
-    NewDayEventComponent,
-    GalleryItemComponent,
-    SearchResultPageComponent,
-    SearchResultItemComponent,
-    TimePeriodSelectComponent,
-    TypeItemSelectComponent,
-    ResultFilteringComponent,
-    InvoiceCardComponent,
-    TimeLineCardComponent
-  ],
-  entryComponents: [
-    DayInfoComponent,
-    NewDayEventComponent
-  ],
+    declarations: [
+        CalendarPageComponent,
+        InvoicePageComponent,
+        GalleryPageComponent,
+        TimeLinePageComponent,
+        DayInfoComponent,
+        NewDayEventComponent,
+        GalleryItemComponent,
+        SearchResultPageComponent,
+        SearchResultItemComponent,
+        TimePeriodSelectComponent,
+        TypeItemSelectComponent,
+        ResultFilteringComponent,
+        InvoiceCardComponent,
+        TimeLineCardComponent
+    ],
     imports: [
         CommonModule,
         ExtraRoutingModule,
@@ -75,11 +71,11 @@ import {MatChipsModule} from '@angular/material/chips';
         MatInputModule,
         MatChipsModule,
     ],
-  providers: [
-    GalleryService,
-    SearchResultService,
-    InvoiceService,
-    TimeLineService
-  ]
+    providers: [
+        GalleryService,
+        SearchResultService,
+        InvoiceService,
+        TimeLineService
+    ]
 })
 export class ExtraModule { }

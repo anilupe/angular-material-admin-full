@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {routes} from '../../../../consts';
 import {ProductDetails} from '../../models/product-details';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-product-edit-form',
@@ -12,24 +12,24 @@ export class ProductEditFormComponent implements OnInit {
   @Input() product: ProductDetails;
   @Output() editProduct: EventEmitter<ProductDetails> = new EventEmitter<ProductDetails>();
   public router: typeof routes = routes;
-  public form: FormGroup;
+  public form: UntypedFormGroup;
 
   selected = 'option';
 
   constructor() {
-    this.form = new FormGroup({
-      image: new FormControl('', Validators['required']),
-      title: new FormControl('', Validators['required']),
-      subtitle: new FormControl('', Validators['required']),
-      price: new FormControl('', Validators['required']),
-      discount: new FormControl('', Validators['required']),
-      description1: new FormControl('', Validators['required']),
-      description2: new FormControl('', Validators['required']),
-      code: new FormControl('', Validators['required']),
-      hashtag: new FormControl('', Validators['required']),
-      technology: new FormControl('', Validators['required']),
-      rating: new FormControl('', Validators['required']),
-      status: new FormControl('', Validators['required']),
+    this.form = new UntypedFormGroup({
+      image: new UntypedFormControl('', Validators['required']),
+      title: new UntypedFormControl('', Validators['required']),
+      subtitle: new UntypedFormControl('', Validators['required']),
+      price: new UntypedFormControl('', Validators['required']),
+      discount: new UntypedFormControl('', Validators['required']),
+      description1: new UntypedFormControl('', Validators['required']),
+      description2: new UntypedFormControl('', Validators['required']),
+      code: new UntypedFormControl('', Validators['required']),
+      hashtag: new UntypedFormControl('', Validators['required']),
+      technology: new UntypedFormControl('', Validators['required']),
+      rating: new UntypedFormControl('', Validators['required']),
+      status: new UntypedFormControl('', Validators['required']),
     });
   }
 
@@ -73,50 +73,50 @@ export class ProductEditFormComponent implements OnInit {
   }
 
   get image() {
-    return this.form.get('image') as FormControl;
+    return this.form.get('image') as UntypedFormControl;
   }
 
   get title() {
-    return this.form.get('title') as FormControl;
+    return this.form.get('title') as UntypedFormControl;
   }
 
   get subtitle() {
-    return this.form.get('subtitle') as FormControl;
+    return this.form.get('subtitle') as UntypedFormControl;
   }
 
   get price() {
-    return this.form.get('price') as FormControl;
+    return this.form.get('price') as UntypedFormControl;
   }
 
   get discount() {
-    return this.form.get('discount') as FormControl;
+    return this.form.get('discount') as UntypedFormControl;
   }
 
   get description1() {
-    return this.form.get('description1') as FormControl;
+    return this.form.get('description1') as UntypedFormControl;
   }
 
   get description2() {
-    return this.form.get('description2') as FormControl;
+    return this.form.get('description2') as UntypedFormControl;
   }
 
   get code() {
-    return this.form.get('code') as FormControl;
+    return this.form.get('code') as UntypedFormControl;
   }
 
   get hashtag() {
-    return this.form.get('hashtag') as FormControl;
+    return this.form.get('hashtag') as UntypedFormControl;
   }
 
   get technology() {
-    return this.form.get('technology') as FormControl;
+    return this.form.get('technology') as UntypedFormControl;
   }
 
   get rating() {
-    return this.form.get('rating') as FormControl;
+    return this.form.get('rating') as UntypedFormControl;
   }
 
   get status() {
-    return this.form.get('status') as FormControl;
+    return this.form.get('status') as UntypedFormControl;
   }
 }

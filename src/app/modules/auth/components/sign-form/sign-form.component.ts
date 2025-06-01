@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../../shared/services/auth.service';
 
 @Component({
@@ -9,15 +9,15 @@ import { AuthService } from '../../../../shared/services/auth.service';
 })
 export class SignFormComponent implements OnInit {
   @Output() sendSignForm = new EventEmitter<void>();
-  public form: FormGroup;
+  public form: UntypedFormGroup;
 
   constructor(public authService: AuthService) {}
 
   public ngOnInit(): void {
-    this.form = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required]),
-      confirmPassword: new FormControl('', [Validators.required]),
+    this.form = new UntypedFormGroup({
+      email: new UntypedFormControl('', [Validators.required, Validators.email]),
+      password: new UntypedFormControl('', [Validators.required]),
+      confirmPassword: new UntypedFormControl('', [Validators.required]),
     });
   }
 

@@ -1,0 +1,91 @@
+<app-breadcrumb [path]="routes.Stores_CREATE"></app-breadcrumb>
+
+<mat-card class="card">
+  <mat-card-title>
+    <h4 class="h4">Nueva Tienda</h4>
+  </mat-card-title>
+
+  <mat-card-content [formGroup]="form">
+    <!-- Nombre -->
+    <div class="input-wrapper">
+      <p class="input-title">Nombre</p>
+      <mat-form-field appearance="legacy" class="input-field">
+        <input
+          matInput
+          formControlName="nombre"
+          placeholder="Nombre"
+          class="input-text"
+        />
+      </mat-form-field>
+    </div>
+
+    <!-- Dirección -->
+    <div class="input-wrapper">
+      <p class="input-title">Dirección</p>
+      <mat-form-field appearance="legacy" class="input-field">
+        <input
+          matInput
+          formControlName="direccion"
+          placeholder="Dirección"
+          class="input-text"
+        />
+      </mat-form-field>
+    </div>
+
+    <!-- Teléfono -->
+    <div class="input-wrapper">
+      <p class="input-title">Teléfono</p>
+      <mat-form-field appearance="legacy" class="input-field">
+        <input
+          matInput
+          formControlName="telefono"
+          placeholder="Nuúmero de teléfono"
+          class="input-text"
+        />
+      </mat-form-field>
+    </div>
+
+    <!-- Ciudad -->
+    <div class="input-wrapper">
+      <p class="input-title">Ciudad</p>
+      <mat-form-field appearance="legacy" class="input-field">
+        <input
+          matInput
+          formControlName="ciudad"
+          placeholder="Ciudad"
+          class="input-text"
+        />
+      </mat-form-field>
+    </div>
+
+    <!-- Estado (Activo/Inactivo) -->
+    <p class="input-title">Estado</p>
+    <div class="checkbox-wrapper">
+      <mat-radio-group formControlName="estado">
+        <mat-radio-button color="primary" [value]="true"
+          >Activo</mat-radio-button
+        >
+        <mat-radio-button color="primary" [value]="false"
+          >Inactivo</mat-radio-button
+        >
+      </mat-radio-group>
+    </div>
+
+    <!-- Imagen de la tienda -->
+    <app-image-uploader
+      (imageUploaded)="imagenSubida($event)"
+      (imageDeleted)="imagenEliminada($event)"
+      [imageList]="form.value.imagen"
+      [entityName]="'stores'"
+      [propertyName]="'imagen'"
+    ></app-image-uploader>
+
+    <!-- Botones -->
+    <button (click)="guardarTienda()" mat-flat-button color="success">
+      Crear
+    </button>
+    <button (click)="onCancel()" mat-flat-button color="default">
+      Cancelar
+    </button>
+  </mat-card-content>
+</mat-card>

@@ -19,7 +19,7 @@
       mat-menu-item
     >
       <mat-icon class="user-menu-icon">account_circle</mat-icon>
-      Profile
+      Perfil
     </button>
     <button class="user-menu__item-title" mat-menu-item>
       <mat-icon class="user-menu-icon">description</mat-icon>
@@ -27,16 +27,16 @@
     </button>
     <button class="user-menu__item-title" mat-menu-item>
       <mat-icon class="user-menu-icon">email</mat-icon>
-      Messages
+      Mensajes
     </button>
     <div class="sign-button-wrapper">
       <button (click)="signOutEmit()" class="sign-button" mat-flat-button>
-        Sign out
+        Cerrar sesión
       </button>
     </div>
   </mat-menu>
 
   <p class="greeting-text">
-    Hi, <span class="user-name">{{ user?.firstName }}</span>
+    Hola, <span class="user-name">{{ user?.firstName }}</span>
   </p>
 </div>

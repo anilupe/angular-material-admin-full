@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import { AgmCoreModule } from '@agm/core';
 
 import { googleMapKey } from './consts';
 import { GoogleMapPageComponent } from './components';
@@ -10,19 +9,7 @@ import { MapsRoutingModule } from './map-routing.module';
 import { VectorMapPageComponent } from './components';
 
 @NgModule({
-  declarations: [
-    GoogleMapPageComponent,
-    VectorMapPageComponent
-  ],
-  imports: [
-    CommonModule,
-    AgmCoreModule,
-    AgmCoreModule.forRoot({
-      apiKey: googleMapKey
-    }),
-    MapsRoutingModule,
-    SharedModule,
-    MatCardModule,
-  ]
+  declarations: [GoogleMapPageComponent, VectorMapPageComponent],
+  imports: [CommonModule, MapsRoutingModule, SharedModule, MatCardModule],
 })
-export class MapsModule { }
+export class MapsModule {}

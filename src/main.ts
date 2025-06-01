@@ -4,7 +4,7 @@ import { hmrBootstrap } from './hmr';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
-
+import 'src/app/firebase-config'; 
 if (environment.production) {
   enableProdMode();
 }

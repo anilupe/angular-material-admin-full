@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { AppConfig } from '../../app.config';
 import { routes } from '../../consts';
-import { AuthServicesFirebase } from 'src/app/services/auth/auth.service';
+import { AuthServicesFirebase } from '../../../app/modules/auth/services/auth.service';
 
 const jwt = new JwtHelperService();
 
@@ -24,7 +24,7 @@ export class AuthService {
     private http: HttpClient,
     private router: Router,
     private toastr: ToastrService,
-    public authService: AuthServicesFirebase, 
+    public authService: AuthServicesFirebase,
   ) {
     this.config = appConfig.getConfig();
   }
@@ -73,14 +73,16 @@ export class AuthService {
       window.location.href =
         this.config.baseURLApi + `${this.api}/signin/` + creds.social;
     } else if (creds.email.length > 0 && creds.password.length > 0) {
-      this.authService.login(creds.email, creds.password)
-      .then((user: any) => {
-        this.userData = user;
-        console.log('User data:', this.userData);
-      })
-      .catch((error: any) => {
-        console.error('Error al iniciar sesión:', error);
-      });
+      this.authService
+        .login(creds.email, creds.password)
+        .then((user: any) => {
+          this.userData = user;
+          this.receiveToken(this.userData.accessToken);
+          console.log('User data:', this.userData);
+        })
+        .catch((error: any) => {
+          this.toastr.error(error);
+        });
     } else {
       this.toastr.error('Something was wrong. Try again');
     }
@@ -120,14 +122,32 @@ export class AuthService {
     this.errorMessage = payload;
   }
 
-  receiveToken(token) {
-    let user: any = {};
-    user = jwt.decodeToken(token).user;
-
-    localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(user));
-    this.receiveLogin();
-  }
+  async receiveToken(token: string) {
+    try {
+      // Guarda el token en localStorage
+      localStorage.setItem('token', token);
+  
+      // Obtiene el usuario actual desde Firebase Auth
+      const user = await this.authService.getAuthFire();
+  
+      if (user) {
+        const userData = {
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+          photoURL: user.photoURL,
+          emailVerified: user.emailVerified
+        };
+        console.log('User data from Firebase:', userData);
+  
+        localStorage.setItem('user', JSON.stringify(userData));
+      }
+  
+      this.receiveLogin();
+    } catch (error) {
+      console.error('Error al procesar el token de Firebase:', error);
+    }
+  }  
 
   logoutUser() {
     localStorage.removeItem('token');
@@ -144,6 +164,7 @@ export class AuthService {
   receiveLogin() {
     this.isFetching = false;
     this.errorMessage = '';
+    
     this.router.navigate([this.ROUTES.DASHBOARD]);
   }
 

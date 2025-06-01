@@ -10,6 +10,11 @@ export enum routes {
   Users_CREATE = '/admin/users/new',
   Users_EDIT = '/admin/users/edit',
 
+  // --- CRUD stores ---//
+
+  Stores = '/tiendas/stores',
+  Stores_CREATE = '/tiendas/stores/new',
+  Stores_EDIT = '/tiendas/stores/edit',
   // --- E-commerce ---//
 
   MANAGEMENT = '/e-commerce/management',

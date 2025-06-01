@@ -8,7 +8,7 @@ import {MatCardModule} from '@angular/material/card';
 import { DayInfoComponent } from './components/day-info/day-info.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { NewDayEventComponent } from './components/new-day-event/new-day-event.component';
-import {CalendarPageComponent, GalleryPageComponent, InvoicePageComponent, TimeLinePageComponent} from './containers';
+import {GalleryPageComponent, InvoicePageComponent, TimeLinePageComponent} from './containers';
 import { GalleryItemComponent } from './components/gallery-item/gallery-item.component';
 import {GalleryService, SearchResultService, TimeLineService} from './services';
 import {MatButtonModule} from '@angular/material/button';
@@ -26,8 +26,6 @@ import { InvoiceCardComponent } from './components/invoice-card/invoice-card.com
 import {InvoiceService} from './services/invoice.service';
 import {MatTableModule} from '@angular/material/table';
 import { TimeLineCardComponent } from './components/time-line-card/time-line-card.component';
-import {AgmCoreModule} from '@agm/core';
-import {googleMapKey} from '../maps/consts';
 import {MatInputModule} from '@angular/material/input';
 import {MatChipsModule} from '@angular/material/chips';
 
@@ -35,7 +33,6 @@ import {MatChipsModule} from '@angular/material/chips';
 
 @NgModule({
     declarations: [
-        CalendarPageComponent,
         InvoicePageComponent,
         GalleryPageComponent,
         TimeLinePageComponent,
@@ -64,10 +61,6 @@ import {MatChipsModule} from '@angular/material/chips';
         MatButtonToggleModule,
         MatListModule,
         MatTableModule,
-        AgmCoreModule,
-        AgmCoreModule.forRoot({
-            apiKey: googleMapKey
-        }),
         MatInputModule,
         MatChipsModule,
     ],

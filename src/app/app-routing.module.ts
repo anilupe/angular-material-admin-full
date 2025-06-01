@@ -85,6 +85,11 @@ const route: Routes = [
           import('./modules/CRUD/crud.module').then((m) => m.CrudModule),
       },
       {
+        path: 'tiendas',
+        loadChildren: () =>
+          import('./modules/stores/stores.module').then((m) => m.StoresModule),
+      },
+      {
         path: 'user',
         canActivate: [AuthGuard],
         loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule)

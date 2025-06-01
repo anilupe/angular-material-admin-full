@@ -2,8 +2,8 @@
   <div class="auth-page__content-block">
     <div class="auth-page__content-wrapper">
       <mat-tab-group class="auth-page__group" mat-stretch-tabs>
-        <mat-tab label="Login">
-          <h4 class="auth-page__group-title">Welcome!</h4>
+        <mat-tab label="Iniciar sesión">
+          <h4 class="auth-page__group-title">Bienvenido/a!</h4>
           <div class="auth-page__google-button-wrapper">
             <button
               mat-raised-button
@@ -14,13 +14,13 @@
                 class="auth-page__google-button-icon"
                 src="./assets/auth/google.svg"
                 alt="google"
-              />Sign in with Google
+              />Iniciar sesión con Google
             </button>
           </div>
 
           <div class="auth-page__border-wrapper">
             <div class="auth-page__border-line"></div>
-            <p class="auth-page__border-title">or</p>
+            <p class="auth-page__border-title">o</p>
             <div class="auth-page__border-line"></div>
           </div>
 
@@ -28,15 +28,15 @@
             (sendLoginForm)="sendLoginForm($event)"
           ></app-login-form>
         </mat-tab>
-        <mat-tab label="New User">
-          <h4 class="auth-page__group-title">Welcome!</h4>
-          <p class="auth-page__group-sub-title">Create you account</p>
+        <mat-tab label="Nuevo usuario">
+          <h4 class="auth-page__group-title">Bienvenido/a!</h4>
+          <p class="auth-page__group-sub-title">Crear cuenta</p>
 
           <app-sign-form (sendSignForm)="sendSignForm($event)"></app-sign-form>
 
           <div class="auth-page__border-wrapper">
             <div class="auth-page__border-line"></div>
-            <p class="auth-page__border-title">or</p>
+            <p class="auth-page__border-title">o</p>
             <div class="auth-page__border-line"></div>
           </div>
 
@@ -50,15 +50,16 @@
                 class="auth-page__google-button-icon"
                 src="./assets/auth/google.svg"
                 alt="google"
-              />Sign in with Google
+              />Registrarse con Google
             </button>
           </div>
         </mat-tab>
       </mat-tab-group>
 
       <p class="auth-page__footer-title">
-        © 2014-{{ todayDate | year }}
-        <a href="https://flatlogic.com">Flatlogic</a>, LLC. All rights reserved.
+        © 2025-{{ todayDate | year }}
+        <a href="https://flatlogic.com">PixelPulse</a>, SAS. All rights
+        reserved.
       </p>
     </div>
   </div>
@@ -66,10 +67,10 @@
     <div class="auth-page__logo-wrapper">
       <img
         class="auth-page__logo-img"
-        src="./assets/auth/logo.svg"
+        src="./assets/auth/logo.png"
         alt="logo"
       />
-      <h6 class="auth-page__logo-title">Angular Material Admin Full</h6>
+      <h6 class="auth-page__logo-title">Tu tranquilidad, nuestra misión</h6>
     </div>
   </div>
 </div>

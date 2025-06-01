@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { AppConfig } from '../../app.config';
 import { routes } from '../../consts';
+import { AuthServicesFirebase } from 'src/app/services/auth/auth.service';
 
 const jwt = new JwtHelperService();
 
@@ -16,12 +17,14 @@ export class AuthService {
   config: any;
   api = '/api/auth';
   ROUTES: typeof routes = routes;
+  userData: any = {};
 
   constructor(
     appConfig: AppConfig,
     private http: HttpClient,
     private router: Router,
     private toastr: ToastrService,
+    public authService: AuthServicesFirebase, 
   ) {
     this.config = appConfig.getConfig();
   }
@@ -70,16 +73,14 @@ export class AuthService {
       window.location.href =
         this.config.baseURLApi + `${this.api}/signin/` + creds.social;
     } else if (creds.email.length > 0 && creds.password.length > 0) {
-      this.http
-        .post(`${this.api}/signin/local`, creds, { responseType: 'text' })
-        .subscribe(
-          (token: string) => {
-            this.receiveToken(token);
-          },
-          (err) => {
-            this.toastr.error('Something was wrong. Try again');
-          },
-        );
+      this.authService.login(creds.email, creds.password)
+      .then((user: any) => {
+        this.userData = user;
+        console.log('User data:', this.userData);
+      })
+      .catch((error: any) => {
+        console.error('Error al iniciar sesión:', error);
+      });
     } else {
       this.toastr.error('Something was wrong. Try again');
     }

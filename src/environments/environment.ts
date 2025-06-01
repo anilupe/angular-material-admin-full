@@ -5,7 +5,16 @@
 export const environment = {
   production: false,
   hmr: false,
-  backend: true
+  backend: true,
+  firebase: {
+    apiKey: "AIzaSyBJaqpskN73PIU5ck0_XP_nam522QlrRcY",
+  authDomain: "mystique-med.firebaseapp.com",
+  projectId: "mystique-med",
+  storageBucket: "mystique-med.firebasestorage.app",
+  messagingSenderId: "426318179870",
+  appId: "1:426318179870:web:9e98a82989b1d020aec80f",
+  measurementId: "G-ZQZP4BPGL7"
+  }
 };
 
 /*

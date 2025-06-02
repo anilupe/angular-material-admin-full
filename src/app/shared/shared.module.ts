@@ -28,6 +28,7 @@ import { ImageUploaderComponent } from './uploaders/image-uploader/image-uploade
 import { FileUploaderComponent } from './uploaders/file-uploader/file-uploader.component';
 import { DeletePopupComponent } from './popups/delete-popup/delete-popup.component';
 import { FilterComponent } from './filter/filter.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { FilterComponent } from './filter/filter.component';
     DateMenuComponent,
     SettingsMenuComponent,
     ChatPopupComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     HeaderModule,

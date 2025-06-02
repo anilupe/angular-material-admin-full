@@ -1,0 +1,65 @@
+:host {
+    display: block;
+    font-family: 'Roboto', sans-serif;
+    color: #333;
+  }
+  
+  mat-dialog-content {
+    padding: 20px 24px;
+    font-size: 16px;
+    color: #444;
+    border-bottom: 1px solid #eee;
+  }
+  
+  h2[mat-dialog-title] {
+    margin: 0;
+    padding: 24px 24px 10px;
+    font-weight: 700;
+    font-size: 22px;
+    color: #2c3e50;
+    text-align: center;
+  }
+  
+  mat-dialog-actions {
+    padding: 16px 24px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    background-color: #fafafa;
+    border-top: 1px solid #eee;
+  }
+  
+  button {
+    min-width: 90px;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+  }
+  
+  button.mat-button {
+    color: #555;
+    &:hover {
+      background-color: #f0f0f0;
+    }
+  }
+  
+  button.mat-flat-button {
+    color: white;
+    &.warn {
+      background-color: #e74c3c;
+      &:hover {
+        background-color: #c0392b;
+      }
+    }
+  }
+  
+  /* Agregamos ícono en el título para más estilo */
+  
+  h2[mat-dialog-title]::before {
+    content: '⚠️';
+    display: inline-block;
+    margin-right: 8px;
+    font-size: 24px;
+    vertical-align: middle;
+  }
+  

@@ -29,8 +29,11 @@ export class StoresCreateComponent implements OnInit {
       direccion: ['', Validators.required],
       telefono: ['', Validators.required],
       ciudad: [''],
+      ruc: ['', Validators.required],
+      legalRepresentative: ['', Validators.required],
+      legalRepresentativeId: ['', Validators.required],
       estado: [true],
-      imagen: [[]], // para almacenar las URLs de imágenes subidas
+      imagen: [[]],
     });
   }
   imagenSubida(url: string) {
@@ -55,10 +58,8 @@ export class StoresCreateComponent implements OnInit {
     try {
       this.loading = true;
       const tiendaData = this.form.value;
-      console.log('Datos de la tienda:', tiendaData);
       const id = await this.storesService.crearTienda(tiendaData);
-      console.log('Tienda creada con ID:', id);
-      this.router.navigate(['/stores']);
+      this.router.navigate(['/tiendas/stores']);
     } catch (error) {
       console.error('Error al guardar la tienda:', error);
       alert('Ocurrió un error al guardar la tienda');

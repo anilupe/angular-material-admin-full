@@ -1,18 +1,36 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { routes } from 'src/app/consts';
 import { StoresService } from 'src/app/shared/services/stores.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-stores-list',
   templateUrl: './stores-list.component.html',
-  styleUrls: ['./stores-list.component.scss']
+  styleUrls: ['./stores-list.component.scss'],
 })
 export class StoresListComponent implements OnInit {
+  public routes: typeof routes = routes;
+
   dataSource = new MatTableDataSource<any>([]);
-  displayedColumns: string[] = ['nombre', 'direccion', 'telefono', 'acciones'];
+  displayedColumns: string[] = [
+    'nombre',
+    'direccion',
+    'telefono',
+    'ruc',
+    'representanteLegal',
+    'cedulaRepresentante',
+    'acciones',
+  ];
   loading = false;
 
-  constructor(private storesService: StoresService) {}
+  constructor(
+    private storesService: StoresService,
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog,
+  ) {}
 
   ngOnInit(): void {
     this.getTiendas();
@@ -36,7 +54,28 @@ export class StoresListComponent implements OnInit {
   }
 
   delete(id: string) {
-    console.log('Eliminar tienda con ID:', id);
-    // lógica para eliminar
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px',
+      data: {
+        message: '¿Estás seguro de que deseas eliminar esta tienda?',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result) {
+        try {
+          await this.storesService.eliminarTienda(id);
+          this.getTiendas();
+          this.snackBar.open('Tienda eliminada correctamente', 'Cerrar', {
+            duration: 3000,
+          });
+        } catch (error) {
+          console.error('Error al eliminar:', error);
+          this.snackBar.open('Error al eliminar la tienda', 'Cerrar', {
+            duration: 3000,
+          });
+        }
+      }
+    });
   }
 }

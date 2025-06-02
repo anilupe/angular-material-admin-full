@@ -20,6 +20,8 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { HttpInterceptorService } from './shared/services/http-interceptor.service';
 import { ToastrModule } from 'ngx-toastr';
 import { StoresModule } from './modules/stores/stores.module';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [AppComponent, NotFoundComponent],
@@ -42,6 +44,8 @@ import { StoresModule } from './modules/stores/stores.module';
     StoresModule,
     HttpClientModule,
     ToastrModule.forRoot(),
+    MatSnackBarModule,
+    MatDialogModule
   ],
   providers: [
     {

@@ -1,8 +1,8 @@
 <!-- stores-list.component.html -->
-<app-breadcrumb [path]="['Tiendas']"></app-breadcrumb>
+<app-breadcrumb [path]="routes.Stores"></app-breadcrumb>
 
 <div class="filter-form">
-  <button mat-flat-button color="success" routerLink="/stores/create">
+  <button mat-flat-button color="success" routerLink="/stores/new">
     Nueva tienda
   </button>
 </div>
@@ -43,10 +43,38 @@
           </td>
         </ng-container>
 
+        <!-- RUC -->
+        <ng-container matColumnDef="ruc">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>RUC</th>
+          <td mat-cell *matCellDef="let row" (click)="edit(row)">
+            {{ row.ruc }}
+          </td>
+        </ng-container>
+
+        <!-- Representante Legal -->
+        <ng-container matColumnDef="representanteLegal">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Representante Legal
+          </th>
+          <td mat-cell *matCellDef="let row" (click)="edit(row)">
+            {{ row.legalRepresentative }}
+          </td>
+        </ng-container>
+
+        <!-- Cédula Representante -->
+        <ng-container matColumnDef="cedulaRepresentante">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Cédula Representante
+          </th>
+          <td mat-cell *matCellDef="let row" (click)="edit(row)">
+            {{ row.legalRepresentativeId }}
+          </td>
+        </ng-container>
+
         <!-- Acciones -->
         <ng-container matColumnDef="acciones">
           <th mat-header-cell *matHeaderCellDef>Acciones</th>
-          <td mat-cell *matCellDef="let row">
+          <td mat-cell *matCellDef="let row" class="acciones-cell">
             <button mat-flat-button color="primary" (click)="edit(row)">
               Editar
             </button>

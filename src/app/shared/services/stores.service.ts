@@ -55,4 +55,23 @@ export class StoresService {
     const tiendaRef = child(this.tiendasRef, id);
     return remove(tiendaRef);
   }
+
+  async crearSubtienda(tiendaId: string, subtienda: any): Promise<string> {
+    const subtiendasRef = ref(db, `tiendas/${tiendaId}/subtiendas`);
+    const nuevaSubtiendaRef = push(subtiendasRef);
+    await set(nuevaSubtiendaRef, subtienda);
+    return nuevaSubtiendaRef.key!;
+  }
+
+  async obtenerSubtiendas(tiendaId: string): Promise<any[]> {
+    const subtiendasRef = ref(db, `tiendas/${tiendaId}/subtiendas`);
+    const snapshot = await get(subtiendasRef);
+    if (snapshot.exists()) {
+      const data = snapshot.val();
+      console.log(`Subtiendas de tienda ${tiendaId} obtenidas:`, data);
+      return Object.keys(data).map((key) => ({ id: key, ...data[key] }));
+    } else {
+      return [];
+    }
+  }
 }

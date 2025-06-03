@@ -8,7 +8,6 @@ import {
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../shared/services/auth.service';
-import { UsersService } from '../../../shared/services/users.service';
 import { DataFormatterService } from '../../../shared/services/data-formatter.service';
 import { routes } from '../../../consts';
 
@@ -34,7 +33,6 @@ export class ProfileComponent {
     private dataFormatterService: DataFormatterService,
 
     private authService: AuthService,
-    private usersService: UsersService,
   ) {
     this.form = this.formBuilder.group({
       id: [''],
@@ -69,19 +67,19 @@ export class ProfileComponent {
   }
 
   onSave(): void {
-    const currentUser = this.form.value;
-    if (this.form.controls.email) {
-      currentUser.email = this.form.controls.email.value;
-    }
-    this.usersService.update(currentUser, currentUser.id).subscribe({
-      next: (res) => {
-        this.toastr.success('Profile updated successfully');
-        this.router.navigate([this.routes.DASHBOARD]);
-      },
-      error: (err) => {
-        this.toastr.error('Something was wrong. Try again');
-      },
-    });
+    // const currentUser = this.form.value;
+    // if (this.form.controls.email) {
+    //   currentUser.email = this.form.controls.email.value;
+    // }
+    // this.usersService.update(currentUser, currentUser.id).subscribe({
+    //   next: (res) => {
+    //     this.toastr.success('Profile updated successfully');
+    //     this.router.navigate([this.routes.DASHBOARD]);
+    //   },
+    //   error: (err) => {
+    //     this.toastr.error('Something was wrong. Try again');
+    //   },
+    // });
   }
 
   onCancel(): void {

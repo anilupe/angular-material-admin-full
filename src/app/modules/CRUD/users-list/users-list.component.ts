@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { DataFormatterService } from '../../../shared/services/data-formatter.service';
-import { UsersService } from '../../../shared/services/users.service';
+//import { UsersService } from '../../../shared/services/users.service';
 import { routes } from '../../../consts';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
@@ -50,8 +50,8 @@ export class UsersListComponent implements OnInit {
     private toastr: ToastrService,
     public dialog: MatDialog,
     public dataFormatterService: DataFormatterService,
-    private usersService: UsersService,
-  ) {}
+  ) // private usersService: UsersService,
+  {}
 
   ngOnInit(): void {
     this.getUsers();
@@ -63,11 +63,11 @@ export class UsersListComponent implements OnInit {
   }
 
   submitHandler(request: string): void {
-    this.usersService.getFilteredData(request).subscribe((res) => {
-      this.users = res.rows;
-      this.dataSource = new MatTableDataSource(res.rows);
-      this.dataSource.paginator = this.paginator;
-    });
+    // this.usersService.getFilteredData(request).subscribe((res) => {
+    //   this.users = res.rows;
+    //   this.dataSource = new MatTableDataSource(res.rows);
+    //   this.dataSource.paginator = this.paginator;
+    // });
   }
 
   clearFilters(): void {
@@ -99,16 +99,16 @@ export class UsersListComponent implements OnInit {
   }
 
   onDelete(id: string): void {
-    this.usersService.delete(id).subscribe({
-      next: (res) => {
-        this.deleteConfirmSubscription.unsubscribe();
-        this.toastr.success('Users deleted successfully');
-        this.getUsers();
-      },
-      error: (err) => {
-        this.toastr.error('Something was wrong. Try again');
-      },
-    });
+    // this.usersService.delete(id).subscribe({
+    //   next: (res) => {
+    //     this.deleteConfirmSubscription.unsubscribe();
+    //     this.toastr.success('Users deleted successfully');
+    //     this.getUsers();
+    //   },
+    //   error: (err) => {
+    //     this.toastr.error('Something was wrong. Try again');
+    //   },
+    // });
   }
 
   sort(e): void {
@@ -120,11 +120,11 @@ export class UsersListComponent implements OnInit {
   }
 
   private getUsers(): void {
-    this.usersService.getAll().subscribe((res) => {
-      this.users = res.rows;
-      this.dataSource = new MatTableDataSource(res.rows);
-      this.dataSource.paginator = this.paginator;
-    });
+    // this.usersService.getAll().subscribe((res) => {
+    //   this.users = res.rows;
+    //   this.dataSource = new MatTableDataSource(res.rows);
+    //   this.dataSource.paginator = this.paginator;
+    // });
   }
 
   redirectToSwagger() {

@@ -1,0 +1,34 @@
+<h4 mat-dialog-title>
+    {{ editingModelId ? 'Editar modelo' : 'Nuevo modelo' }}
+  </h4>
+  
+  <mat-dialog-content [formGroup]="form">
+    <!-- Nombre -->
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="nombre" />
+      <mat-error *ngIf="form.get('nombre')?.hasError('required')"
+        >Campo requerido</mat-error
+      >
+    </mat-form-field>
+  
+    <!-- Estado -->
+    <mat-label>Estado</mat-label>
+    <mat-radio-group formControlName="estado" class="radio-group">
+      <mat-radio-button [value]="true">Activo</mat-radio-button>
+      <mat-radio-button [value]="false">Inactivo</mat-radio-button>
+    </mat-radio-group>
+  </mat-dialog-content>
+  
+  <mat-dialog-actions align="end">
+    <button mat-flat-button (click)="cancelar()">Cancelar</button>
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="guardar()"
+      [disabled]="form.invalid"
+    >
+      {{ editingModelId ? 'Actualizar' : 'Crear' }}
+    </button>
+  </mat-dialog-actions>
+  

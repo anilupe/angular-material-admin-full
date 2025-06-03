@@ -22,6 +22,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { StoresModule } from './modules/stores/stores.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
+import { InteresComponent } from './modules/stores/interes/interes.component';
 
 @NgModule({
   declarations: [AppComponent, NotFoundComponent],

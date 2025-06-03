@@ -5,6 +5,7 @@ import { StoresService } from 'src/app/shared/services/stores.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-stores-list',
@@ -30,6 +31,7 @@ export class StoresListComponent implements OnInit {
     private storesService: StoresService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -51,6 +53,11 @@ export class StoresListComponent implements OnInit {
   edit(row: any) {
     console.log('Editar tienda:', row);
     // redirigir o abrir modal
+  }
+
+  subtiendas(id: string) {
+    this.loading = true;
+    this.router.navigate(['tiendas/subtiendas', id]);
   }
 
   delete(id: string) {

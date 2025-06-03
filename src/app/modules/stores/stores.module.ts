@@ -24,12 +24,43 @@ import { MatRadioModule } from '@angular/material/radio';
 import { StoresCreateComponent } from './stores-create/stores-create.component';
 import { StoresEditComponent } from './stores-edit/stores-edit.component';
 import { StoresListComponent } from './stores-list/stores-list.component';
+import { SubstoresCreateComponent } from './substores/substores-create/substores-create.component';
+import { SubstoresListComponent } from './substores/substores-list/substores-list.component';
+import { InteresComponent } from './interes/interes.component';
+import { MarcaComponent } from './marca/marca.component';
+import { ModeloComponent } from './modelo/modelo.component';
+import { PhoneComponent } from './phone/phone.component';
+import { TaxesComponent } from './taxes/taxes.component';
+import { InteresModalComponent } from './dialog/interes-modal/interes-modal.component';
+import { MarcaModalComponent } from './dialog/marca-modal/marca-modal.component';
+import { ModeloModalComponent } from './dialog/modelo-modal/modelo-modal.component';
+import { TaxesModalComponent } from './dialog/taxes-modal/taxes-modal.component';
+import { PhoneModalComponent } from './dialog/phone-modal/phone-modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { RolesModalComponent } from './dialog/roles-modal/roles-modal.component';
+import { RolesComponent } from './roles/roles.component';
+import { UsersModalComponent } from './dialog/users-modal/users-modal.component';
 
 @NgModule({
   declarations: [
     StoresCreateComponent,
     StoresEditComponent,
     StoresListComponent,
+    SubstoresCreateComponent,
+    SubstoresListComponent,
+    InteresComponent,
+    MarcaComponent,
+    ModeloComponent,
+    PhoneComponent,
+    TaxesComponent,
+    InteresModalComponent,
+    MarcaModalComponent,
+    ModeloModalComponent,
+    TaxesModalComponent,
+    PhoneModalComponent,
+    RolesModalComponent,
+    RolesComponent,
+    UsersModalComponent
   ],
   imports: [
     CommonModule,
@@ -53,6 +84,7 @@ import { StoresListComponent } from './stores-list/stores-list.component';
     MatRadioModule,
     OwlDateTimeModule,
     OwlNativeDateTimeModule,
+    MatDialogModule,
   ],
 })
 export class StoresModule {}

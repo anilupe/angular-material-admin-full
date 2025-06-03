@@ -1,5 +1,4 @@
 import { Injectable, NgZone } from '@angular/core';
-
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -15,7 +14,10 @@ import {
   signInWithPopup,
   sendPasswordResetEmail,
 } from 'firebase/auth';
-import { auth } from '../../../firebase-config';
+import { getDatabase, set } from 'firebase/database';
+
+import { auth, db } from '../../../firebase-config';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -64,20 +66,51 @@ export class AuthServicesFirebase {
     return user !== null ? true : false;
   }
 
-  //Register Method
-  Register(email: string, password: string) {
-    return createUserWithEmailAndPassword(auth, email, password)
-      .then((result) => {
-        this.UserData = result.user;
-        this.ngZone.run(() => {
-          this.sendEmailVerification();
-          alert('registri cinpleto');
-          //this.router.navigate(['/dashboard']);
-        });
-      })
-      .catch((error) => {
-        window.alert(error.message);
+  async register(user: {
+    nombre: string;
+    correo: string;
+    telefono: string;
+    phoneNumber: string;
+    tiendaId: string;
+    rolId: string;
+    activo: boolean;
+    password: string;
+  }): Promise<string | void> {
+    try {
+      const result = await createUserWithEmailAndPassword(auth, user.correo, user.password);
+      this.UserData = result.user;
+
+      const uid = result.user.uid;
+
+      // ✅ Asegúrate que esta línea esté ANTES de usar `ref`
+      const db = getDatabase();
+
+      // ✅ `ref()` debe ir después de `getDatabase()`
+      const userRef = ref(db, `usuarios/${uid}`);
+
+      // ✅ set() espera un DatabaseReference, no un void
+      await set(userRef, {
+        nombre: user.nombre,
+        correo: user.correo,
+        telefono: user.telefono,
+        phoneNumber: user.phoneNumber,
+        tiendaId: user.tiendaId,
+        rolId: user.rolId,
+        activo: user.activo,
+        authUid: uid,
+        fechaCreacion: new Date().toISOString(),
+        fechaActualizacion: new Date().toISOString(),
       });
+
+      this.ngZone.run(() => {
+        sendEmailVerification(result.user);
+        this.router.navigate(['/usuarios']);
+      });
+
+      return uid;
+    } catch (error: any) {
+      window.alert(error.message);
+    }
   }
 
   //Login Method
@@ -130,4 +163,7 @@ export class AuthServicesFirebase {
 
     return this.user$.pipe(map((user) => !!user));
   }
+}
+function ref(db: any, arg1: string) {
+  throw new Error('Function not implemented.');
 }

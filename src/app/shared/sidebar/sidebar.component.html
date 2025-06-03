@@ -55,12 +55,30 @@
         </mat-icon>
       </div>
       <div
-        *ngIf="node.name === 'Tiendas'"
+        *ngIf="node.name === 'Administración de Tiendas'"
         class="mat-tree-item"
         matTreeNodeToggle
       >
         <div>
           <mat-icon>store</mat-icon>
+          <p>{{ node.name }}</p>
+        </div>
+        <mat-icon
+          [ngClass]="{
+            rotateUp: treeControl.isExpanded(node),
+            rotateDown: !treeControl.isExpanded(node)
+          }"
+          >keyboard_arrow_down
+        </mat-icon>
+      </div>
+      <div
+        *ngIf="node.name === 'Subtiendas'"
+        class="mat-tree-item"
+        matTreeNodeToggle
+      >
+        <div>
+          <mat-icon>local_convenience_store</mat-icon>
+          <p>{{ node.name }}</p>
         </div>
         <mat-icon
           [ngClass]="{

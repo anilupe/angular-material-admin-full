@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { routes, AUTO_COMPLETE_LIMIT } from '../../../consts';
 import { DataFormatterService } from '../../../shared/services/data-formatter.service';
 import { AutoCompleteItem } from '../../../shared/models/common';
-import { UsersService } from '../../../shared/services/users.service';
+//import { UsersService } from '../../../shared/services/users.service';
 
 @Component({
   selector: 'app-users-edit',
@@ -34,7 +34,7 @@ export class UsersEditComponent implements OnInit {
     private toastr: ToastrService,
     private dataFormatterService: DataFormatterService,
 
-    private usersService: UsersService,
+    //private usersService: UsersService,
   ) {
     this.form = this.formBuilder.group({
       firstName: [''],
@@ -69,7 +69,7 @@ export class UsersEditComponent implements OnInit {
   }
 
   onSave(): void {
-    this.usersService.update(this.form.value, this.selectedId).subscribe({
+  /*   this.usersService.update(this.form.value, this.selectedId).subscribe({
       next: (res) => {
         this.toastr.success('Users updated successfully');
         this.router.navigate([this.routes.Users]);
@@ -77,7 +77,7 @@ export class UsersEditComponent implements OnInit {
       error: (err) => {
         this.toastr.error('Something was wrong. Try again');
       },
-    });
+    }); */
   }
 
   onCancel(): void {
@@ -85,8 +85,8 @@ export class UsersEditComponent implements OnInit {
   }
 
   private getUsersById(): void {
-    this.usersService.getById(this.selectedId).subscribe((res) => {
+   /*  this.usersService.getById(this.selectedId).subscribe((res) => {
       this.form.patchValue(res);
-    });
+    }); */
   }
 }

@@ -2,91 +2,125 @@
 
 <mat-card class="card">
   <mat-card-title>
-    <h4 class="h4">New Users</h4>
+    <h4 class="h4">Nuevo Usuario</h4>
   </mat-card-title>
 
   <mat-card-content [formGroup]="form">
+    <!-- Nombre -->
     <div class="input-wrapper">
-      <p class="input-title">First Name</p>
+      <p class="input-title">Nombre completo</p>
       <mat-form-field appearance="legacy" class="input-field">
         <input
           matInput
-          formControlName="firstName"
-          placeholder="First Name"
+          formControlName="nombre"
+          placeholder="Nombre completo"
           class="input-text"
         />
       </mat-form-field>
     </div>
 
+    <!-- Teléfono -->
     <div class="input-wrapper">
-      <p class="input-title">Last Name</p>
+      <p class="input-title">Teléfono</p>
       <mat-form-field appearance="legacy" class="input-field">
         <input
           matInput
-          formControlName="lastName"
-          placeholder="Last Name"
+          formControlName="telefono"
+          placeholder="Teléfono"
           class="input-text"
         />
       </mat-form-field>
     </div>
 
+    <!-- Phone Number (internacional) -->
     <div class="input-wrapper">
-      <p class="input-title">Phone Number</p>
+      <p class="input-title">Teléfono internacional</p>
       <mat-form-field appearance="legacy" class="input-field">
         <input
           matInput
           formControlName="phoneNumber"
-          placeholder="Phone Number"
+          placeholder="Ej: +593..."
           class="input-text"
         />
       </mat-form-field>
     </div>
 
+    <!-- Correo -->
     <div class="input-wrapper">
-      <p class="input-title">E-Mail</p>
+      <p class="input-title">Correo electrónico</p>
       <mat-form-field appearance="legacy" class="input-field">
         <input
           matInput
-          formControlName="email"
-          placeholder="E-Mail"
+          formControlName="correo"
+          placeholder="Correo"
           class="input-text"
         />
       </mat-form-field>
     </div>
 
-    <p class="input-title">Role</p>
+    <!-- Contraseña -->
+    <div class="input-wrapper">
+      <p class="input-title">Contraseña</p>
+      <mat-form-field appearance="legacy" class="input-field">
+        <input
+          matInput
+          type="password"
+          formControlName="password"
+          placeholder="Contraseña"
+          class="input-text"
+        />
+      </mat-form-field>
+    </div>
 
-    <div class="checkbox-wrapper">
-      <mat-radio-group formControlName="role">
-        <mat-radio-button color="primary" [value]="'admin'">
-          admin
-        </mat-radio-button>
-      </mat-radio-group>
+    <!-- Tienda -->
+    <div class="input-wrapper">
+      <p class="input-title">Tienda</p>
+      <mat-form-field appearance="legacy" class="input-field">
+        <mat-select formControlName="tiendaId" placeholder="Selecciona una tienda">
+          <mat-option *ngFor="let tienda of tiendas" [value]="tienda.id">
+            {{ tienda.nombre }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-      <mat-radio-group formControlName="role">
-        <mat-radio-button color="primary" [value]="'user'">
-          user
+    <!-- Rol -->
+    <div class="input-wrapper">
+      <p class="input-title">Rol</p>
+      <mat-radio-group formControlName="rolId" class="radio-group-horizontal">
+        <mat-radio-button
+          *ngFor="let rol of roles"
+          [value]="rol.id"
+          color="primary"
+          class="radio-button"
+        >
+          {{ rol.nombre }}
         </mat-radio-button>
       </mat-radio-group>
     </div>
+    
+    
 
+    <!-- Estado -->
     <div class="checkbox-wrapper">
       <div class="checkbox-item">
-        <p class="checkbox-item-title">Disabled</p>
-        <mat-checkbox color="primary" formControlName="disabled"></mat-checkbox>
+        <p class="checkbox-item-title">Activo</p>
+        <mat-checkbox color="primary" formControlName="activo"></mat-checkbox>
       </div>
     </div>
 
+    <!-- Avatar (opcional) -->
     <app-image-uploader
       (imageUploaded)="avatarAdd($event)"
       (imageDeleted)="avatarDel($event)"
       [imageList]="form.value.avatar"
-      [entityName]="'users'"
+      [entityName]="'usuarios'"
       [propertyName]="'avatar'"
     >
     </app-image-uploader>
 
-    <button (click)="onCreate()" mat-flat-button color="success">Create</button>
-    <button (click)="onCancel()" mat-flat-button color="default">Cancel</button>
+    <!-- Botones -->
+    <button (click)="onCreate()" mat-flat-button color="primary">Crear</button>
+    <button (click)="onCancel()" mat-flat-button color="warn">Cancelar</button>
   </mat-card-content>
 </mat-card>

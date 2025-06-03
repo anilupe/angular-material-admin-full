@@ -26,11 +26,28 @@ const TREE_DATA: any = [
     ],
   },
   {
-    name: 'Tiendas',
+    name: 'Administración de Tiendas',
     children: [
       { name: 'Tiendas List', route: routes.Stores, active: 'active' },
       { name: 'Agregar Tienda', route: routes.Stores_CREATE, active: 'active' },
       { name: 'Editar Tienda', route: routes.Stores_EDIT, active: 'active' },
+      {
+        name: 'Subtiendas',
+        children: [
+          {
+            name: 'Agregar Subtienda',
+            route: routes.SubStores_CREATE,
+            active: 'active',
+          },
+        ],
+      },
+      { name: 'Intereses', route: routes.Interes, active: 'active' },
+      { name: 'Impuestos', route: routes.Impuestos, active: 'active' },
+      { name: 'Marcas', route: routes.Marca, active: 'active' },
+      { name: 'Modelos', route: routes.Modelo, active: 'active' },
+      { name: 'Teléfonos', route: routes.Telefonos, active: 'active' },
+      { name: 'Roles', route: routes.Roles, active: 'active' },
+
     ],
   },
 ];

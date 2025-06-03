@@ -1,51 +1,61 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Users, UsersList } from '../models/users.model';
-import { AutoCompleteItem } from '../models/common';
-
-const baseUrl = '/api/users';
+import { db } from '../../firebase-config';
+import { ref, push, set, update, remove, get, child } from 'firebase/database';
+import {
+  createUserWithEmailAndPassword,
+  deleteUser,
+  getAuth,
+} from 'firebase/auth';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UsersService {
-  constructor(private http: HttpClient) {}
+export class UserService {
+  private usersRef = ref(db, 'usuarios');
+  private auth = getAuth();
 
-  getAll(): Observable<UsersList> {
-    return this.http.get<UsersList>(baseUrl);
+  async getAll(): Promise<User[]> {
+    const snapshot = await get(this.usersRef);
+    if (snapshot.exists()) {
+      const data = snapshot.val();
+      return Object.entries(data).map(([id, value]: any) => ({ id, ...value }));
+    }
+    return [];
   }
 
-  getFilteredData(params: string): Observable<UsersList> {
-    return this.http.get<UsersList>(baseUrl + params);
+  async getById(id: string): Promise<User | null> {
+    const snapshot = await get(child(this.usersRef, id));
+    return snapshot.exists() ? { id, ...snapshot.val() } : null;
   }
 
-  listAutocomplete(
-    query: string,
-    limit: number,
-  ): Observable<AutoCompleteItem[]> {
-    const params = {
-      query,
-      limit: limit.toString(),
+  async create(user: User, password: string): Promise<void> {
+    // Crear en Firebase Authentication
+    const userCredential = await createUserWithEmailAndPassword(
+      this.auth,
+      user.correo,
+      password,
+    );
+
+    const newRef = push(this.usersRef);
+    const userToSave = {
+      ...user,
+      authUid: userCredential.user.uid,
     };
-    return this.http.get<AutoCompleteItem[]>(`${baseUrl}/autocomplete`, {
-      params,
-    });
+
+    await set(newRef, userToSave);
   }
 
-  getById(id: string): Observable<Users> {
-    return this.http.get<Users>(`${baseUrl}/${id}`);
+  async update(id: string, user: User): Promise<void> {
+    await update(child(this.usersRef, id), user);
   }
 
-  create(data: Users): any {
-    return this.http.post(`${baseUrl}`, { data });
-  }
-
-  update(data: any, id: string): any {
-    return this.http.put(`${baseUrl}/${id}`, { data, id });
-  }
-
-  delete(id: string): any {
-    return this.http.delete(`${baseUrl}/${id}`);
+  async delete(id: string): Promise<void> {
+    const usuario = await this.getById(id);
+    if (usuario?.authUid) {
+      // Opcional: Si tienes acceso, elimina del Auth también
+      // (necesitarás un Cloud Function para eso en la mayoría de los casos)
+    }
+    await remove(child(this.usersRef, id));
   }
 }

@@ -15,6 +15,30 @@ export enum routes {
   Stores = '/tiendas/stores',
   Stores_CREATE = '/tiendas/stores/new',
   Stores_EDIT = '/tiendas/stores/edit',
+
+  // --- CRUD interes ---//
+
+  SubStores = '/tiendas/subtiendas',
+  SubStores_CREATE = '/tiendas/subtiendas/nueva',
+  SubStores_EDIT = '/tiendas/subtiendas/editar',
+
+  // --- CRUD interes ---//
+  Interes = '/tiendas/interes',
+
+  // --- CRUD marca ---//
+  Marca = '/tiendas/marca',
+
+  // --- CRUD modelo ---//
+  Modelo = '/tiendas/modelo',
+
+  // --- CRUD impuestos ---//
+  Impuestos = '/tiendas/impuestos',
+
+  // --- CRUD impuestos ---//
+  Telefonos = '/tiendas/teléfonos',
+  // --- CRUD roles ---//
+  Roles = '/tiendas/roles',
+
   // --- E-commerce ---//
 
   MANAGEMENT = '/e-commerce/management',

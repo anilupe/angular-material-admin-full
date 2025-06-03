@@ -128,3 +128,9 @@ mat-form-field + mat-form-field {
   background-size: cover;
   background-position: 50% center;
 }
+.radio-group-horizontal {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  flex-wrap: wrap;
+}

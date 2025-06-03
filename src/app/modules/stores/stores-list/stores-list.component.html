@@ -1,8 +1,7 @@
-<!-- stores-list.component.html -->
 <app-breadcrumb [path]="routes.Stores"></app-breadcrumb>
 
 <div class="filter-form">
-  <button mat-flat-button color="success" routerLink="/stores/new">
+  <button mat-flat-button color="success" routerLink="/tiendas/stores/new">
     Nueva tienda
   </button>
 </div>
@@ -80,6 +79,9 @@
             </button>
             <button mat-flat-button color="warn" (click)="delete(row.id)">
               Eliminar
+            </button>
+            <button mat-flat-button color="success" (click)="subtiendas(row.id)">
+              Ver Subtiendas
             </button>
           </td>
         </ng-container>

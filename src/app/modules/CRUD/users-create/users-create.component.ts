@@ -5,12 +5,19 @@ import {
   FormControl,
   UntypedFormGroup,
   Validators,
+  FormBuilder,
 } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { routes, AUTO_COMPLETE_LIMIT } from '../../../consts';
 import { DataFormatterService } from '../../../shared/services/data-formatter.service';
 import { AutoCompleteItem } from '../../../shared/models/common';
-import { UsersService } from '../../../shared/services/users.service';
+import { Rol } from 'src/app/shared/models/rol';
+import { UserService } from '../../user/service';
+import { RolesService } from 'src/app/shared/services/roles.service';
+import { StoresService } from 'src/app/shared/services/stores.service';
+import { Store } from 'src/app/shared/models/store';
+import { AuthServicesFirebase } from '../../auth/services';
+//import { UsersService } from '../../../shared/services/users.service';
 
 @Component({
   selector: 'app-users-create',
@@ -24,57 +31,76 @@ export class UsersCreateComponent implements OnInit {
   AUTO_COMPLETE_LIMIT = AUTO_COMPLETE_LIMIT;
 
   imgFile: string;
+  roles: Rol[] = [];
+  tiendas: Store[] = [];
 
   constructor(
+    private fb: FormBuilder,
+    private userService: AuthServicesFirebase,
+    private roleService: RolesService,
+    private tiendaService: StoresService,
     private router: Router,
-    private route: ActivatedRoute,
-    private formBuilder: UntypedFormBuilder,
-    private toastr: ToastrService,
-    private dataFormatterService: DataFormatterService,
-
-    private usersService: UsersService,
   ) {
-    this.form = this.formBuilder.group({
-      firstName: [''],
-
-      lastName: [''],
-
+    this.form = this.fb.group({
+      nombre: ['', Validators.required],
+      correo: ['', [Validators.required, Validators.email]],
+      telefono: ['', Validators.required],
       phoneNumber: [''],
-
-      email: [''],
-
-      role: [false],
-
-      disabled: [false],
-
+      tiendaId: ['', Validators.required],
+      rolId: ['', Validators.required],
+      activo: [true],
+      password: ['', Validators.required],
       avatar: [[]],
     });
   }
 
-  ngOnInit(): void {}
-
-  avatarAdd(val) {
-    this.form.value.avatar.push(val);
-  }
-  avatarDel(id) {
-    this.form.value.avatar = this.form.value.avatar.filter(
-      (img) => img.id !== id,
-    );
+  async ngOnInit(): Promise<void> {
+    this.roles = await this.roleService.getAll();
+    this.tiendas = await this.tiendaService.obtenerTiendas();
   }
 
-  onCreate(): void {
-    this.usersService.create(this.form.value).subscribe({
-      next: (res) => {
-        this.toastr.success('Users created successfully');
-        this.router.navigate([this.routes.Users]);
-      },
-      error: (err) => {
-        this.toastr.error('Something was wrong. Try again');
-      },
-    });
+  async onCreate(): Promise<void> {
+    if (this.form.invalid) return;
+
+    const formData = this.form.value;
+    const userData = {
+      nombre: formData.nombre,
+      correo: formData.correo,
+      telefono: formData.telefono,
+      phoneNumber: formData.phoneNumber,
+      tiendaId: formData.tiendaId,
+      rolId: formData.rolId,
+      activo: formData.activo,
+      fechaCreacion: new Date(),
+      fechaActualizacion: new Date(),
+      avatar: formData.avatar || [],
+    };
+
+    try {
+      await this.userService
+        .register(userData.correo, formData.password)
+        .then((userCredential) => {
+          console.log('Usuario creado:', userCredential);
+        });
+      //this.router.navigate(['/usuarios']);
+    } catch (error) {
+      console.error('Error creando usuario:', error);
+    }
   }
 
   onCancel(): void {
-    this.router.navigate([this.routes.Users]);
+    this.router.navigate(['/usuarios']);
+  }
+
+  avatarAdd(url: string): void {
+    const avatarList = this.form.value.avatar || [];
+    this.form.patchValue({ avatar: [...avatarList, url] });
+  }
+
+  avatarDel(url: string): void {
+    const updatedList = (this.form.value.avatar || []).filter(
+      (img: string) => img !== url,
+    );
+    this.form.patchValue({ avatar: updatedList });
   }
 }

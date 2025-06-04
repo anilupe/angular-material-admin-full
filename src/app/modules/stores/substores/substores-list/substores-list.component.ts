@@ -40,6 +40,8 @@ export class SubstoresListComponent implements OnInit {
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
+    localStorage.setItem('idTienda', JSON.stringify(this.id));
+
     if (this.id) {
       this.loadTienda(this.id);
       this.loadSubtiendas(this.id);
@@ -50,7 +52,6 @@ export class SubstoresListComponent implements OnInit {
     this.loading = true;
     try {
       this.subtiendasList = await this.storesService.obtenerSubtiendas(id);
-      console.log('Subtiendas obtenidas:', this.subtiendasList);
       this.dataSource.data = this.subtiendasList;
     } catch (error) {
       console.error(error);
@@ -60,8 +61,8 @@ export class SubstoresListComponent implements OnInit {
   }
 
   edit(row: any) {
-    console.log('Editar subtienda:', row);
-    // redirigir o abrir modal para editar subtienda
+    this.router.navigate(['/tiendas/subtiendas/editar', this.id]);
+    localStorage.setItem('subtienda', JSON.stringify(row));
   }
 
   create() {
@@ -91,7 +92,7 @@ export class SubstoresListComponent implements OnInit {
           });
         }
       }
-    }); 
+    });
   }
 
   async loadTienda(id: string) {

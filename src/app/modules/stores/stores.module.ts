@@ -46,6 +46,7 @@ import { EntradaComponent } from './entrada/entrada.component';
 import { TarifasAsistenciaComponent } from './tarifas-asistencia/tarifas-asistencia.component';
 import { ValorEntradaModalComponent } from './dialog/valor-entrada-modal/valor-entrada-modal.component';
 import { TarifasAsistenciaModalComponent } from './dialog/tarifas-asistencia-modal/tarifas-asistencia-modal.component';
+import { SubStoresEditComponent } from './substores/substores-edit/substores-edit.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { TarifasAsistenciaModalComponent } from './dialog/tarifas-asistencia-mod
     StoresListComponent,
     SubstoresCreateComponent,
     SubstoresListComponent,
+    SubStoresEditComponent,
     InteresComponent,
     MarcaComponent,
     ModeloComponent,

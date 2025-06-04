@@ -5,18 +5,20 @@ import { routes, AUTO_COMPLETE_LIMIT } from 'src/app/consts';
 import { StoresService } from 'src/app/shared/services/stores.service';
 
 @Component({
-  selector: 'app-substores-create',
-  templateUrl: './substores-create.component.html',
-  styleUrls: ['./substores-create.component.scss'],
+  selector: 'app-stores-edit',
+  templateUrl: './substores-edit.component.html',
+  styleUrls: ['./substores-edit.component.scss'],
 })
-export class SubstoresCreateComponent implements OnInit {
+export class SubStoresEditComponent implements OnInit {
   loading = false;
   public routes: typeof routes = routes;
   form: UntypedFormGroup;
   AUTO_COMPLETE_LIMIT = AUTO_COMPLETE_LIMIT;
-
   imgFile: string;
   tiendas: any[] = [];
+  subtiendaId: string | null = null;
+  tiendaId: string | null = null;
+  dataLocal: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -26,6 +28,8 @@ export class SubstoresCreateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.dataLocal = localStorage.getItem('subtienda');
+    this.tiendaId = localStorage.getItem('idTienda');
     this.form = this.fb.group({
       tiendaId: ['', Validators.required],
       nombre: ['', Validators.required],
@@ -34,7 +38,6 @@ export class SubstoresCreateComponent implements OnInit {
       telefono: ['', Validators.required],
       ciudad: [''],
       ruc: ['', Validators.required],
-
       estado: [true],
       imagen: [[]],
     });
@@ -43,17 +46,22 @@ export class SubstoresCreateComponent implements OnInit {
   }
 
   async cargarTiendas() {
-    try {
-      this.tiendas = await this.storesService.obtenerTiendas();
-      this.form.get('tiendaId')?.valueChanges.subscribe((tiendaId) => {
-        const tienda = this.tiendas.find((t) => t.id === tiendaId);
-        if (tienda?.ruc) {
-          this.form.get('ruc')?.setValue(tienda.ruc);
-        }
-      });
-    } catch (error) {
-      console.error('Error al obtener tiendas:', error);
-    }
+    this.cargarTiendas().then(() => {
+      if (this.dataLocal) {
+        const subtienda = JSON.parse(this.dataLocal);
+        this.subtiendaId = subtienda.id;
+        this.form.patchValue({
+          nombre: subtienda.nombre,
+          razonSocial: subtienda.razonSocial,
+          direccion: subtienda.direccion,
+          telefono: subtienda.telefono,
+          ciudad: subtienda.ciudad,
+          ruc: subtienda.ruc,
+          estado: subtienda.estado,
+          tiendaId: subtienda.id,
+        });
+      }
+    });
   }
 
   imagenSubida(url: string) {
@@ -70,6 +78,7 @@ export class SubstoresCreateComponent implements OnInit {
   }
 
   async guardarTienda() {
+    const data = this.form.value;
     if (this.form.invalid) {
       alert('Por favor, completa todos los campos obligatorios.');
       return;
@@ -78,13 +87,13 @@ export class SubstoresCreateComponent implements OnInit {
     try {
       this.loading = true;
       const formValue = this.form.value;
-      const tiendaPrincipalId = formValue.tiendaId;
       const subtiendaData = { ...formValue };
       delete subtiendaData.tiendaId;
 
-      const id = await this.storesService.crearSubtienda(
-        tiendaPrincipalId,
-        subtiendaData,
+      await this.storesService.updateSubtienda(
+        this.tiendaId,
+        this.subtiendaId,
+        data,
       );
       this.router.navigate(['/tiendas/stores']);
     } catch (error) {

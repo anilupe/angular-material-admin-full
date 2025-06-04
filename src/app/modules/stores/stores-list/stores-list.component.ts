@@ -51,6 +51,7 @@ export class StoresListComponent implements OnInit {
   }
 
   edit(row: any) {
+    localStorage.setItem('tiendaEdit', JSON.stringify(row.id));
     console.log('Editar tienda:', row);
     // redirigir o abrir modal
   }

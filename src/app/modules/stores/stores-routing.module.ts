@@ -14,6 +14,7 @@ import { RolesComponent } from './roles/roles.component';
 import { TarifasAsistenciaComponent } from './tarifas-asistencia/tarifas-asistencia.component';
 import { TiempoComponent } from './tiempo/tiempo.component';
 import { EntradaComponent } from './entrada/entrada.component';
+import { SubStoresEditComponent } from './substores/substores-edit/substores-edit.component';
 
 const routes: Routes = [
   {
@@ -34,7 +35,7 @@ const routes: Routes = [
   },
   {
     path: 'subtiendas/editar/:id',
-    component: StoresEditComponent,
+    component: SubStoresEditComponent,
   },
   {
     path: 'subtiendas/nueva/:id',

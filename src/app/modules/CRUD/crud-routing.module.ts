@@ -12,6 +12,7 @@ const routes: Routes = [
   },
   {
     path: 'users/edit/:id',
+    
     component: UsersEditComponent,
   },
   {

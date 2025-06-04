@@ -11,6 +11,9 @@ import { ModeloComponent } from './modelo/modelo.component';
 import { TaxesComponent } from './taxes/taxes.component';
 import { PhoneComponent } from './phone/phone.component';
 import { RolesComponent } from './roles/roles.component';
+import { TarifasAsistenciaComponent } from './tarifas-asistencia/tarifas-asistencia.component';
+import { TiempoComponent } from './tiempo/tiempo.component';
+import { EntradaComponent } from './entrada/entrada.component';
 
 const routes: Routes = [
   {
@@ -34,7 +37,7 @@ const routes: Routes = [
     component: StoresEditComponent,
   },
   {
-    path: 'subtiendas/nueva',
+    path: 'subtiendas/nueva/:id',
     component: SubstoresCreateComponent,
   },
   {
@@ -60,6 +63,18 @@ const routes: Routes = [
   {
     path: 'roles',
     component: RolesComponent,
+  },
+  {
+    path: 'tarifas',
+    component: TarifasAsistenciaComponent,
+  },
+  {
+    path: 'tiempo',
+    component: TiempoComponent,
+  },
+  {
+    path: 'entrada',
+    component: EntradaComponent,
   },
 ];
 

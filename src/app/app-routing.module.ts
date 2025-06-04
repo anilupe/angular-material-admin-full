@@ -95,6 +95,11 @@ const route: Routes = [
         loadChildren: () => import('./modules/user/user.module').then(m => m.UserModule)
       },
       {
+        path: 'ventas',
+        loadChildren: () =>
+          import('./modules/ventas/ventas.module').then((m) => m.VentasModule),
+      },
+      {
         path: 'app',
         loadChildren: () =>
           import('./modules/pages/pages.module').then((m) => m.PagesModule),

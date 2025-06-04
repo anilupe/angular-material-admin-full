@@ -1,0 +1,49 @@
+.full-width {
+    width: 100%;
+  }
+  
+  .radio-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .file-upload {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1.5rem;
+  
+    label {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+  
+    input[type="file"] {
+      padding: 0.25rem 0;
+    }
+  
+    small {
+      margin-top: 0.5rem;
+      color: #666;
+      font-size: 0.85rem;
+    }
+  }
+  
+  /* Espaciado general para los mat-form-field */
+  mat-form-field.full-width {
+    margin-bottom: 1rem;
+  }
+  
+  /* Responsive para pantallas pequeñas */
+  @media (max-width: 600px) {
+    .radio-group {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+  
+    .file-upload {
+      font-size: 0.9rem;
+    }
+  }
+  

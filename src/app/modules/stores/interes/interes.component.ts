@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, UntypedFormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { routes, AUTO_COMPLETE_LIMIT } from 'src/app/consts';
 import { Interest } from 'src/app/shared/models/interest';
 import { InteresService } from 'src/app/shared/services/interes.service';
 import { InteresModalComponent } from '../dialog/interes-modal/interes-modal.component';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-interes',
@@ -54,8 +55,17 @@ export class InteresComponent implements OnInit {
   }
 
   eliminar(id: string) {
-    if (confirm('¿Estás seguro de eliminar este tipo de interés?')) {
-      this.interestService.delete(id).then(() => this.cargarIntereses());
-    }
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px',
+      data: {
+        message: '¿Estás seguro de que deseas eliminar este registro?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result) {
+        await this.interestService.delete(id);
+        this.cargarIntereses();
+      }
+    });
   }
 }

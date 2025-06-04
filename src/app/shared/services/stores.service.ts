@@ -1,14 +1,6 @@
 import { Injectable } from '@angular/core';
 import { db } from '../../firebase-config';
-import {
-  ref,
-  set,
-  push,
-  update,
-  remove,
-  get,
-  child,
-} from 'firebase/database';
+import { ref, set, push, update, remove, get, child } from 'firebase/database';
 
 @Injectable({
   providedIn: 'root',
@@ -61,6 +53,11 @@ export class StoresService {
     const nuevaSubtiendaRef = push(subtiendasRef);
     await set(nuevaSubtiendaRef, subtienda);
     return nuevaSubtiendaRef.key!;
+  }
+
+  async eliminarSubTienda(tiendaId: string) {
+    const subtiendasRef = ref(db, `tiendas/${tiendaId}/subtiendas`);
+    return remove(subtiendasRef);
   }
 
   async obtenerSubtiendas(tiendaId: string): Promise<any[]> {

@@ -1,0 +1,85 @@
+<app-breadcrumb [path]="routes.Tarifas"></app-breadcrumb>
+
+<mat-card class="card">
+  <mat-card-title>
+    <div class="header">
+      <h4 class="h4">Tarifas de asistencia</h4>
+      <button mat-flat-button color="primary" (click)="openDialog()">
+        Crear nuevo
+      </button>
+    </div>
+  </mat-card-title>
+
+  <mat-card-content class="tabla-tarifas">
+    <table
+      mat-table
+      [dataSource]="intereses"
+      class="mat-elevation-z1 full-width-table"
+    >
+      <!-- Nombre -->
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+        <td mat-cell *matCellDef="let element">{{ element.nombre }}</td>
+      </ng-container>
+
+      <!-- Valor Inicio -->
+      <ng-container matColumnDef="valorInicio">
+        <th mat-header-cell *matHeaderCellDef>Valor Inicio</th>
+        <td mat-cell *matCellDef="let element">${{ element.valorInicio }}</td>
+      </ng-container>
+
+      <!-- Valor Fin -->
+      <ng-container matColumnDef="valorFin">
+        <th mat-header-cell *matHeaderCellDef>Valor Fin</th>
+        <td mat-cell *matCellDef="let element">${{ element.valorFin }}</td>
+      </ng-container>
+        <!-- Valor Fin -->
+        <ng-container matColumnDef="valorTarifa">
+            <th mat-header-cell *matHeaderCellDef>Valor Tarifa</th>
+            <td mat-cell *matCellDef="let element">${{ element.valorTarifa }}</td>
+          </ng-container>
+
+      <!-- Estado -->
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef>Estado</th>
+        <td mat-cell *matCellDef="let element">
+          <span [ngClass]="element.estado ? 'text-success' : 'text-warn'">
+            {{ element.estado ? 'Activo' : 'Inactivo' }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Contrato -->
+      <ng-container matColumnDef="contrato">
+        <th mat-header-cell *matHeaderCellDef>Contrato</th>
+        <td mat-cell *matCellDef="let element">
+          <a
+            *ngIf="element.contratoUrl"
+            [href]="element.contratoUrl"
+            target="_blank"
+            rel="noopener"
+          >
+            Ver contrato
+          </a>
+          <span *ngIf="!element.contratoUrl">Sin archivo</span>
+        </td>
+      </ng-container>
+
+      <!-- Acciones -->
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-icon-button color="primary" (click)="openDialog(element)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="eliminar(element.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>

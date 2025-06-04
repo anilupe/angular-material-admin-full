@@ -1,1 +1,92 @@
-<p>phone-modal works!</p>
+<h4 mat-dialog-title>
+  {{ editingPhoneId ? 'Editar teléfono' : 'Nuevo teléfono' }}
+</h4>
+
+<mat-dialog-content [formGroup]="form">
+  <!-- Nombre -->
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Nombre</mat-label>
+    <input matInput formControlName="nombre" />
+    <mat-error *ngIf="form.get('nombre')?.hasError('required')">
+      Campo requerido
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Descripción -->
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Descripción</mat-label>
+    <input matInput formControlName="descripcion" />
+    <mat-error *ngIf="form.get('descripcion')?.hasError('required')">
+      Campo requerido
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Marca -->
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Marca</mat-label>
+    <mat-select formControlName="marcaId">
+      <mat-option *ngFor="let marca of marcas" [value]="marca.id">
+        {{ marca.nombre }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('marcaId')?.hasError('required')">
+      Campo requerido
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Modelo -->
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Modelo</mat-label>
+    <mat-select formControlName="modeloId">
+      <mat-option *ngFor="let modelo of modelos" [value]="modelo.id">
+        {{ modelo.nombre }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('modeloId')?.hasError('required')">
+      Campo requerido
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Color -->
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Color</mat-label>
+    <input matInput formControlName="color" />
+  </mat-form-field>
+
+  <!-- Precio mínimo -->
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Precio mínimo</mat-label>
+    <input matInput type="number" formControlName="precioMin" />
+    <mat-error *ngIf="form.get('precioMin')?.hasError('required')">
+      Campo requerido
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Precio máximo -->
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Precio máximo</mat-label>
+    <input matInput type="number" formControlName="precioMax" />
+    <mat-error *ngIf="form.get('precioMax')?.hasError('required')">
+      Campo requerido
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Estado -->
+  <mat-label>Estado</mat-label>
+  <mat-radio-group formControlName="estado" class="radio-group">
+    <mat-radio-button [value]="true">Activo</mat-radio-button>
+    <mat-radio-button [value]="false">Inactivo</mat-radio-button>
+  </mat-radio-group>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-flat-button (click)="cancelar()">Cancelar</button>
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="guardar()"
+    [disabled]="form.invalid"
+  >
+    {{ editingPhoneId ? 'Actualizar' : 'Crear' }}
+  </button>
+</mat-dialog-actions>

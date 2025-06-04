@@ -40,6 +40,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { RolesModalComponent } from './dialog/roles-modal/roles-modal.component';
 import { RolesComponent } from './roles/roles.component';
 import { UsersModalComponent } from './dialog/users-modal/users-modal.component';
+import { TiempoModalComponent } from './dialog/tiempo-modal/tiempo-modal.component';
+import { TiempoComponent } from './tiempo/tiempo.component';
+import { EntradaComponent } from './entrada/entrada.component';
+import { TarifasAsistenciaComponent } from './tarifas-asistencia/tarifas-asistencia.component';
+import { ValorEntradaModalComponent } from './dialog/valor-entrada-modal/valor-entrada-modal.component';
+import { TarifasAsistenciaModalComponent } from './dialog/tarifas-asistencia-modal/tarifas-asistencia-modal.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +66,13 @@ import { UsersModalComponent } from './dialog/users-modal/users-modal.component'
     PhoneModalComponent,
     RolesModalComponent,
     RolesComponent,
-    UsersModalComponent
+    UsersModalComponent,
+    TiempoModalComponent,
+    TiempoComponent,
+    EntradaComponent,
+    TarifasAsistenciaComponent,
+    ValorEntradaModalComponent,
+    TarifasAsistenciaModalComponent,
   ],
   imports: [
     CommonModule,

@@ -6,6 +6,7 @@ import { routes, AUTO_COMPLETE_LIMIT } from 'src/app/consts';
 import { Interest } from 'src/app/shared/models/interest';
 import { ModelService } from 'src/app/shared/services/model.service';
 import { ModeloModalComponent } from '../dialog/modelo-modal/modelo-modal.component';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-modelo',
@@ -51,8 +52,16 @@ export class ModeloComponent implements OnInit {
   }
 
   eliminar(id: string) {
-    if (confirm('¿Estás seguro de eliminar este modelo?')) {
-      this.modelService.delete(id).then(() => this.cargarModelos());
-    }
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px',
+      data: {
+        message: '¿Estás seguro de que deseas eliminar este registro?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result) {
+        this.modelService.delete(id).then(() => this.cargarModelos());
+      }
+    });
   }
 }

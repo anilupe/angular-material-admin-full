@@ -2,7 +2,7 @@
 
 <div class="filter-form">
   <button mat-flat-button color="success" [routerLink]="routes.Users_CREATE">
-    New
+    Nuevo
   </button>
   <button
     mat-flat-button
@@ -10,7 +10,7 @@
     class="filter-button"
     (click)="addFilter()"
   >
-    Add filter
+    Agregar filtro
   </button>
 
   <mat-card class="card" *ngIf="showFilters">
@@ -20,16 +20,14 @@
       (clearFilterConfirmed)="clearFilters()"
       (deleteFilterConfirmed)="delFilter()"
       (submitConfirmed)="submitHandler($event)"
-    >
-    </app-filter>
+    ></app-filter>
   </mat-card>
 </div>
 
 <mat-card class="card">
   <mat-card-content class="card-content">
-    <a href="{{ redirectToSwagger() }}">API documentation for users</a>
     <div class="table-title-wrapper">
-      <p class="table-title">Users</p>
+      <p class="table-title">Usuarios</p>
     </div>
 
     <div class="table-wrapper">
@@ -41,16 +39,14 @@
         class="table"
         (matSortChange)="sort($event)"
       >
-        <!-- First Name Column -->
-
         <ng-container matColumnDef="firstName">
           <th
             mat-header-cell
             *matHeaderCellDef
-            class="table-header"
             mat-sort-header
+            class="table-header"
           >
-            First Name
+            Nombre
           </th>
           <td
             mat-cell
@@ -62,16 +58,14 @@
           </td>
         </ng-container>
 
-        <!-- Last Name Column -->
-
         <ng-container matColumnDef="lastName">
           <th
             mat-header-cell
             *matHeaderCellDef
-            class="table-header"
             mat-sort-header
+            class="table-header"
           >
-            Last Name
+            Apellido
           </th>
           <td
             mat-cell
@@ -83,37 +77,14 @@
           </td>
         </ng-container>
 
-        <!-- Phone Number Column -->
-
-        <ng-container matColumnDef="phoneNumber">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            class="table-header"
-            mat-sort-header
-          >
-            Phone Number
-          </th>
-          <td
-            mat-cell
-            *matCellDef="let row"
-            class="table-body"
-            (click)="edit(row)"
-          >
-            {{ row.phoneNumber }}
-          </td>
-        </ng-container>
-
-        <!-- E-Mail Column -->
-
         <ng-container matColumnDef="email">
           <th
             mat-header-cell
             *matHeaderCellDef
-            class="table-header"
             mat-sort-header
+            class="table-header"
           >
-            E-Mail
+            Correo
           </th>
           <td
             mat-cell
@@ -125,16 +96,51 @@
           </td>
         </ng-container>
 
-        <!-- Role Column -->
+        <ng-container matColumnDef="phoneNumber">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="table-header"
+          >
+            Teléfono
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let row"
+            class="table-body"
+            (click)="edit(row)"
+          >
+            {{ row.phoneNumber }}
+          </td>
+        </ng-container>
 
+        <ng-container matColumnDef="store">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="table-header"
+          >
+            Tienda a la que pertenece
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let row"
+            class="table-body"
+            (click)="edit(row)"
+          >
+            {{ row.store || 'Sin tienda asignada' }}
+          </td>
+        </ng-container>
         <ng-container matColumnDef="role">
           <th
             mat-header-cell
             *matHeaderCellDef
-            class="table-header"
             mat-sort-header
+            class="table-header"
           >
-            Role
+            Rol
           </th>
           <td
             mat-cell
@@ -146,16 +152,14 @@
           </td>
         </ng-container>
 
-        <!-- Disabled Column -->
-
         <ng-container matColumnDef="disabled">
           <th
             mat-header-cell
             *matHeaderCellDef
-            class="table-header"
             mat-sort-header
+            class="table-header"
           >
-            Disabled
+            Activo
           </th>
           <td
             mat-cell
@@ -165,46 +169,19 @@
           >
             <mat-checkbox
               color="primary"
-              [checked]="row.disabled"
+              [checked]="!row.disabled"
+              disabled
             ></mat-checkbox>
           </td>
         </ng-container>
 
-        <!-- Avatar Column -->
-
-        <ng-container matColumnDef="avatar">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            class="table-header"
-            mat-sort-header
-          >
-            Avatar
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="table-header">
+            Acciones
           </th>
           <td
             mat-cell
             *matCellDef="let row"
-            class="table-body"
-            (click)="edit(row)"
-          >
-            <img
-              *ngIf="row.avatar.length"
-              [src]="dataFormatterService.oneImageFormatter(row.avatar)"
-              alt="..."
-              class="table-img"
-              title="image"
-            />
-          </td>
-        </ng-container>
-
-        <!-- Action Column -->
-        <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef class="table-header">
-            Actions
-          </th>
-          <td
-            mat-cell
-            *matCellDef="let element"
             class="table-body"
             (click)="$event.stopPropagation()"
           >
@@ -213,22 +190,23 @@
                 mat-flat-button
                 color="success"
                 class="table-button"
-                (click)="edit(element)"
+                (click)="edit(row.id)"
               >
-                edit
+                Editar
               </button>
               <button
                 mat-flat-button
                 color="warn"
                 class="table-button"
-                (click)="openDeleteModal(element.id)"
+                (click)="openDeleteModal(row.id)"
               >
-                delete
+                Eliminar
               </button>
             </div>
           </td>
         </ng-container>
 
+        <!-- Render rows -->
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr
           mat-row

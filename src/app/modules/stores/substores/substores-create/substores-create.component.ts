@@ -28,6 +28,7 @@ export class SubstoresCreateComponent implements OnInit {
     this.form = this.fb.group({
       tiendaId: ['', Validators.required],
       nombre: ['', Validators.required],
+      razonSocial: ['', Validators.required],
       direccion: ['', Validators.required],
       telefono: ['', Validators.required],
       ciudad: [''],

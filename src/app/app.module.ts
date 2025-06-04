@@ -22,7 +22,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { StoresModule } from './modules/stores/stores.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
-import { InteresComponent } from './modules/stores/interes/interes.component';
+import { VentasModule } from './modules/ventas/ventas.module';
 
 @NgModule({
   declarations: [AppComponent, NotFoundComponent],
@@ -46,7 +46,8 @@ import { InteresComponent } from './modules/stores/interes/interes.component';
     HttpClientModule,
     ToastrModule.forRoot(),
     MatSnackBarModule,
-    MatDialogModule
+    MatDialogModule,
+    VentasModule
   ],
   providers: [
     {

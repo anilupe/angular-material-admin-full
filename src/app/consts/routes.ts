@@ -38,6 +38,18 @@ export enum routes {
   Telefonos = '/tiendas/teléfonos',
   // --- CRUD roles ---//
   Roles = '/tiendas/roles',
+  // --- CRUD tarifas ---//
+  Tarifas = '/tiendas/tarifas',
+
+  // --- CRUD tiempo ---//
+  Tiempo = '/tiendas/tiempo',
+  // --- CRUD valor entrada ---//
+  Entrada = '/tiendas/entrada',
+
+
+  // --- Ventas ---//
+  Ventas = '/ventas/ventas',
+  Ventas_CREATE = '/ventas/ventas/nueva',
 
   // --- E-commerce ---//
 

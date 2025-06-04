@@ -1,0 +1,73 @@
+<h5 mat-dialog-title>
+  {{ editingAsistenciaId ? 'Editar tarifa' : 'Nueva tarifa' }}
+</h5>
+
+<mat-dialog-content [formGroup]="form">
+  <!-- Nombre -->
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Nombre</mat-label>
+    <input matInput formControlName="nombre" />
+    <mat-error *ngIf="form.get('nombre')?.hasError('required')">
+      Campo requerido
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Valor Inicio -->
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Rango inicio</mat-label>
+    <input matInput type="number" formControlName="valorInicio" />
+    <mat-error *ngIf="form.get('valorInicio')?.hasError('required')">
+      Campo requerido
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Valor Fin -->
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Rango fin</mat-label>
+    <input matInput type="number" formControlName="valorFin" />
+    <mat-error *ngIf="form.get('valorFin')?.hasError('required')">
+      Campo requerido
+    </mat-error>
+  </mat-form-field>
+  <!-- Valor Tarifa -->
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Valor tarifa</mat-label>
+    <input matInput type="number" formControlName="valorTarifa" />
+    <mat-error *ngIf="form.get('valorTarifa')?.hasError('required')">
+      Campo requerido
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Estado -->
+  <mat-label>Estado</mat-label>
+  <mat-radio-group formControlName="estado" class="radio-group">
+    <mat-radio-button [value]="true">Activo</mat-radio-button>
+    <mat-radio-button [value]="false">Inactivo</mat-radio-button>
+  </mat-radio-group>
+
+  <!-- Contrato (Archivo) -->
+  <div class="file-upload mt-3">
+    <label for="archivo">Archivo (Contrato)</label>
+    <input
+      type="file"
+      id="archivo"
+      (change)="onFileSelected($event)"
+      accept=".pdf,.doc,.docx"
+    />
+    <small *ngIf="archivoNombre"
+      >Archivo seleccionado: {{ archivoNombre }}</small
+    >
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-flat-button (click)="cancelar()">Cancelar</button>
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="guardar()"
+    [disabled]="form.invalid"
+  >
+    {{ editingAsistenciaId ? 'Actualizar' : 'Crear' }}
+  </button>
+</mat-dialog-actions>

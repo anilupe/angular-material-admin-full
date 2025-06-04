@@ -21,7 +21,7 @@
     </mat-tree-node>
 
     <mat-tree-node *matTreeNodeDef="let node; when: hasChild" class="mat-node">
-      <div
+      <!--   <div
         *ngIf="node.name === 'E-commerce'"
         class="mat-tree-item"
         matTreeNodeToggle
@@ -39,12 +39,16 @@
           }"
           >keyboard_arrow_down
         </mat-icon>
-      </div>
+      </div> -->
 
-      <div *ngIf="node.name === 'User'" class="mat-tree-item" matTreeNodeToggle>
+      <div
+        *ngIf="node.name === 'Administracion de usuarios'"
+        class="mat-tree-item"
+        matTreeNodeToggle
+      >
         <div>
           <mat-icon>person</mat-icon>
-          <p matBadge="New" matBadgeColor="warn">{{ node.name }}</p>
+          <p>{{ node.name }}</p>
         </div>
         <mat-icon
           [ngClass]="{
@@ -55,12 +59,12 @@
         </mat-icon>
       </div>
       <div
-        *ngIf="node.name === 'Administración de Tiendas'"
+        *ngIf="node.name === 'Administración'"
         class="mat-tree-item"
         matTreeNodeToggle
       >
         <div>
-          <mat-icon>store</mat-icon>
+          <mat-icon>settings</mat-icon>
           <p>{{ node.name }}</p>
         </div>
         <mat-icon
@@ -90,14 +94,10 @@
       </div>
     </mat-tree-node>
   </mat-tree>
-
-  <mat-list-item routerLink="{{ routes.OVERVIEW }}">
-    <mat-icon>description</mat-icon> Documentation
-  </mat-list-item>
 </mat-list>
 
 <mat-list>
-  <p class="sidebar-title">Templates</p>
+  <p class="sidebar-title">Ventas</p>
 
   <mat-tree [dataSource]="templateDataSource" [treeControl]="treeControl">
     <mat-tree-node
@@ -113,9 +113,9 @@
     </mat-tree-node>
 
     <mat-tree-node *matTreeNodeDef="let node; when: hasChild" class="mat-node">
-      <div *ngIf="node.name === 'Core'" class="mat-tree-item" matTreeNodeToggle>
+      <div *ngIf="node.name === 'Ventas'" class="mat-tree-item" matTreeNodeToggle>
         <div>
-          <mat-icon>apps</mat-icon>
+          <mat-icon>payment</mat-icon>
           <p>{{ node.name }}</p>
         </div>
         <mat-icon

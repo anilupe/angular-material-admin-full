@@ -1,18 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import {
-  UntypedFormBuilder,
-  FormControl,
   UntypedFormGroup,
   Validators,
   FormBuilder,
 } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
 import { routes, AUTO_COMPLETE_LIMIT } from '../../../consts';
-import { DataFormatterService } from '../../../shared/services/data-formatter.service';
-import { AutoCompleteItem } from '../../../shared/models/common';
 import { Rol } from 'src/app/shared/models/rol';
-import { UserService } from '../../user/service';
 import { RolesService } from 'src/app/shared/services/roles.service';
 import { StoresService } from 'src/app/shared/services/stores.service';
 import { Store } from 'src/app/shared/models/store';
@@ -74,14 +68,13 @@ export class UsersCreateComponent implements OnInit {
       fechaCreacion: new Date(),
       fechaActualizacion: new Date(),
       avatar: formData.avatar || [],
+      password: formData.password,
     };
 
     try {
-      await this.userService
-        .register(userData.correo, formData.password)
-        .then((userCredential) => {
-          console.log('Usuario creado:', userCredential);
-        });
+      await this.userService.register(userData).then((userCredential) => {
+        console.log('Usuario creado:', userCredential);
+      });
       //this.router.navigate(['/usuarios']);
     } catch (error) {
       console.error('Error creando usuario:', error);

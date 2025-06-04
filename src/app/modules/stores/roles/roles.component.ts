@@ -6,6 +6,7 @@ import { routes, AUTO_COMPLETE_LIMIT } from 'src/app/consts';
 import { Rol } from 'src/app/shared/models/rol';
 import { RolesService } from 'src/app/shared/services/roles.service';
 import { RolesModalComponent } from '../dialog/roles-modal/roles-modal.component';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-roles',
@@ -51,8 +52,16 @@ export class RolesComponent implements OnInit {
   }
 
   eliminar(id: string) {
-    if (confirm('¿Estás seguro de eliminar este rol?')) {
-      this.rolesService.delete(id).then(() => this.cargarIntereses());
-    }
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px',
+      data: {
+        message: '¿Estás seguro de que deseas eliminar este registro?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result) {
+        this.rolesService.delete(id).then(() => this.cargarIntereses());
+      }
+    });
   }
 }

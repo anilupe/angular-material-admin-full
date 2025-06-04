@@ -6,6 +6,7 @@ import { routes, AUTO_COMPLETE_LIMIT } from 'src/app/consts';
 import { Tax } from 'src/app/shared/models/tax';
 import { TaxesService } from 'src/app/shared/services/taxes.service';
 import { TaxesModalComponent } from '../dialog/taxes-modal/taxes-modal.component';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-taxes',
@@ -55,8 +56,16 @@ export class TaxesComponent implements OnInit {
   }
 
   eliminar(id: string) {
-    if (confirm('¿Estás seguro de eliminar este tipo de interés?')) {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px',
+      data: {
+        message: '¿Estás seguro de que deseas eliminar este registro?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result) {
       this.taxesService.delete(id).then(() => this.cargarIntereses());
     }
+  });
   }
 }

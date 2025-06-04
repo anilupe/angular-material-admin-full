@@ -10,6 +10,8 @@ import { DeletePopupComponent } from '../../../shared/popups/delete-popup/delete
 import { Users } from '../../../shared/models/users.model';
 import { MatPaginator } from '@angular/material/paginator';
 import { FilterConfig, FilterItems } from '../../../shared/models/common';
+import { UserService } from '../../user/service';
+import { AuthServicesFirebase } from '../../auth/services';
 
 @Component({
   selector: 'app-users-list',
@@ -24,112 +26,74 @@ export class UsersListComponent implements OnInit {
   selectedId: string;
   deleteConfirmSubscription;
   public routes: typeof routes = routes;
-  public displayedColumns: string[] = [
+  displayedColumns: string[] = [
     'firstName',
     'lastName',
-    'phoneNumber',
     'email',
+    'phoneNumber',
+    'store',
     'role',
     'disabled',
-    'avatar',
     'actions',
   ];
-  public dataSource: MatTableDataSource<Users>;
-  config: FilterConfig[] = [];
+  dataSource = new MatTableDataSource<any>();
+
   showFilters = false;
-  filters: FilterItems[] = [
-    { label: 'First Name', title: 'firstName' },
-    { label: 'Last Name', title: 'lastName' },
-    { label: 'Phone Number', title: 'phoneNumber' },
-    { label: 'E-Mail', title: 'email' },
-  ];
+  filters: any[] = [];
+  config: any = {};
 
   constructor(
+    private userService: AuthServicesFirebase,
     private router: Router,
-    private route: ActivatedRoute,
-    private toastr: ToastrService,
-    public dialog: MatDialog,
-    public dataFormatterService: DataFormatterService,
-  ) // private usersService: UsersService,
-  {}
+  ) {}
 
-  ngOnInit(): void {
-    this.getUsers();
+  async ngOnInit() {
+    const users = await this.userService.getUsers();
+    this.dataSource.data = users;
   }
 
-  addFilter(): void {
-    !this.showFilters ? (this.showFilters = true) : null;
-    this.config.push({});
+  edit(id: string) {
+    this.router.navigate(['users/edit/', id]);
   }
 
-  submitHandler(request: string): void {
-    // this.usersService.getFilteredData(request).subscribe((res) => {
-    //   this.users = res.rows;
-    //   this.dataSource = new MatTableDataSource(res.rows);
-    //   this.dataSource.paginator = this.paginator;
-    // });
+  openDeleteModal(userId: string) {
+    console.log('Eliminar usuario', userId);
   }
 
-  clearFilters(): void {
-    this.getUsers();
+  addFilter() {
+    this.showFilters = true;
   }
 
-  delFilter() {
-    this.config.length === 0 ? (this.showFilters = false) : null;
+  clearFilters() {
+    this.filters = [];
   }
 
-  create(): void {
-    this.router.navigate([this.routes.Users_CREATE]);
+  delFilter() {}
+
+  submitHandler(filters: any[]) {
+    // aplicar los filtros recibidos
   }
 
-  edit(row: Users): void {
-    this.router.navigate([routes.Users_EDIT, row.id]);
-  }
+  sort(event: any) {
+    const sortKey = event.active;
+    const direction = event.direction;
 
-  openDeleteModal(id: string): void {
-    this.selectedId = id;
-    const dialogRef = this.dialog.open(DeletePopupComponent, {
-      width: '512px',
+    const sortedData = [...this.dataSource.data].sort((a, b) => {
+      const aValue = a[sortKey];
+      const bValue = b[sortKey];
+      return direction === 'asc'
+        ? aValue.localeCompare(bValue)
+        : bValue.localeCompare(aValue);
     });
 
-    this.deleteConfirmSubscription =
-      dialogRef.componentInstance.deleteConfirmed.subscribe((result) => {
-        this.onDelete(this.selectedId);
-      });
+    this.dataSource.data = sortedData;
   }
 
-  onDelete(id: string): void {
-    // this.usersService.delete(id).subscribe({
-    //   next: (res) => {
-    //     this.deleteConfirmSubscription.unsubscribe();
-    //     this.toastr.success('Users deleted successfully');
-    //     this.getUsers();
-    //   },
-    //   error: (err) => {
-    //     this.toastr.error('Something was wrong. Try again');
-    //   },
-    // });
-  }
-
-  sort(e): void {
-    this.submitHandler(`?field=${e.active}&sort=${e.direction}`);
-  }
-
-  setLimit(e): void {
-    this.submitHandler(`?limit=${e.pageSize}`);
-  }
-
-  private getUsers(): void {
-    // this.usersService.getAll().subscribe((res) => {
-    //   this.users = res.rows;
-    //   this.dataSource = new MatTableDataSource(res.rows);
-    //   this.dataSource.paginator = this.paginator;
-    // });
+  setLimit(event: any) {
+    // puedes manejar paginación manual aquí si necesitas
   }
 
   redirectToSwagger() {
-    return process.env.NODE_ENV === 'production'
-      ? window.location.origin + '/api-docs/#/Users'
-      : 'http://localhost:8080/api-docs/#/Users';
+    return 'https://tudocumentacion-api.com/users'; // Ajusta URL real
   }
 }

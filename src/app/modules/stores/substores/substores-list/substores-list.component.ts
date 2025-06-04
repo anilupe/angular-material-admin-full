@@ -19,6 +19,7 @@ export class SubstoresListComponent implements OnInit {
   displayedColumns: string[] = [
     'tiendaPrincipal',
     'nombre',
+    'razonSocial',
     'direccion',
     'telefono',
     'ciudad',
@@ -28,6 +29,7 @@ export class SubstoresListComponent implements OnInit {
   loading = false;
   subtiendasList: any[] = [];
   nombreTienda = '';
+  id: string | null = null;
   constructor(
     private storesService: StoresService,
     private snackBar: MatSnackBar,
@@ -37,10 +39,10 @@ export class SubstoresListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.loadTienda(id);
-      this.loadSubtiendas(id);
+    this.id = this.route.snapshot.paramMap.get('id');
+    if (this.id) {
+      this.loadTienda(this.id);
+      this.loadSubtiendas(this.id);
     }
   }
 
@@ -62,6 +64,10 @@ export class SubstoresListComponent implements OnInit {
     // redirigir o abrir modal para editar subtienda
   }
 
+  create() {
+    this.router.navigate(['/tiendas/subtiendas/nueva', this.id]);
+  }
+
   delete(id: string) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       width: '300px',
@@ -70,11 +76,11 @@ export class SubstoresListComponent implements OnInit {
       },
     });
 
-    /* dialogRef.afterClosed().subscribe(async (result) => {
+    dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
         try {
-          await this.storesService.eliminarSubtienda(id);
-          this.getSubtiendas();
+          await this.storesService.eliminarSubTienda(id);
+          this.ngOnInit();
           this.snackBar.open('Subtienda eliminada correctamente', 'Cerrar', {
             duration: 3000,
           });
@@ -85,7 +91,7 @@ export class SubstoresListComponent implements OnInit {
           });
         }
       }
-    }); */
+    }); 
   }
 
   async loadTienda(id: string) {

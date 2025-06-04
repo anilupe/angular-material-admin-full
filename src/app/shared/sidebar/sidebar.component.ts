@@ -9,28 +9,19 @@ import { MatDialog } from '@angular/material/dialog';
 import { ChatPopupComponent } from '../popups/chat-popup/chat-popup.component';
 
 const TREE_DATA: any = [
-  {
+  /*  {
     name: 'E-commerce',
     children: [
       { name: 'Product Manage', route: routes.MANAGEMENT, active: 'active' },
       { name: 'Products Grid', route: routes.PRODUCTS, active: 'active' },
       { name: 'Product Page', route: routes.PRODUCT, active: 'active' },
     ],
-  },
+  }, */
   {
-    name: 'User',
+    name: 'Administración',
     children: [
-      { name: 'User List', route: routes.Users, active: 'active' },
-      { name: 'User Add', route: routes.Users_CREATE, active: 'active' },
-      { name: 'User Edit', route: routes.Users_EDIT, active: 'active' },
-    ],
-  },
-  {
-    name: 'Administración de Tiendas',
-    children: [
-      { name: 'Tiendas List', route: routes.Stores, active: 'active' },
+      { name: 'Tiendas', route: routes.Stores, active: 'active' },
       { name: 'Agregar Tienda', route: routes.Stores_CREATE, active: 'active' },
-      { name: 'Editar Tienda', route: routes.Stores_EDIT, active: 'active' },
       {
         name: 'Subtiendas',
         children: [
@@ -47,13 +38,32 @@ const TREE_DATA: any = [
       { name: 'Modelos', route: routes.Modelo, active: 'active' },
       { name: 'Teléfonos', route: routes.Telefonos, active: 'active' },
       { name: 'Roles', route: routes.Roles, active: 'active' },
-
+      { name: 'Tarifas', route: routes.Tarifas, active: 'active' },
+      { name: 'Plazo Financiamiento', route: routes.Tiempo, active: 'active' },
+      { name: 'Valor Entrada', route: routes.Entrada, active: 'active' },
     ],
   },
+  {
+    name: 'Administracion de usuarios',
+    children: [
+      { name: 'Usuarios', route: routes.Users, active: 'active' },
+      { name: 'Agregar Usuario', route: routes.Users_CREATE, active: 'active' },
+    ],
+  },
+ 
 ];
 
 const TemplateNode: any = [
+
   {
+    name: 'Ventas',
+    children: [
+      { name: 'Lista de Ventas', route: routes.Ventas, active: 'active' },
+      { name: 'Crear Venta', route: routes.Ventas_CREATE, active: 'active' },
+    ],
+  },
+
+ /*  {
     name: 'Core',
     children: [
       { name: 'Typography', route: routes.TYPOGRAPHY, active: 'active' },
@@ -147,7 +157,7 @@ const TemplateNode: any = [
         ],
       },
     ],
-  },
+  }, */
 ];
 
 /** Flat node with expandable and level information */

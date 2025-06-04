@@ -6,11 +6,12 @@ import { routes, AUTO_COMPLETE_LIMIT } from 'src/app/consts';
 import { Brand } from 'src/app/shared/models/brand';
 import { MarcaService } from 'src/app/shared/services/marca.service';
 import { MarcaModalComponent } from '../dialog/marca-modal/marca-modal.component';
+import { ConfirmDialogComponent } from 'src/app/shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-marca',
   templateUrl: './marca.component.html',
-  styleUrls: ['./marca.component.scss']
+  styleUrls: ['./marca.component.scss'],
 })
 export class MarcaComponent implements OnInit {
   public routes: typeof routes = routes;
@@ -21,12 +22,9 @@ export class MarcaComponent implements OnInit {
   editingInterestId: string | null = null;
   loading = false;
   marcas: MatTableDataSource<any> = new MatTableDataSource();
-  displayedColumns: string[] = ['nombre','estado', 'acciones'];
+  displayedColumns: string[] = ['nombre', 'estado', 'acciones'];
 
-  constructor(
-    private dialog: MatDialog,
-    private marcaService: MarcaService,
-  ) {}
+  constructor(private dialog: MatDialog, private marcaService: MarcaService) {}
 
   ngOnInit(): void {
     this.cargarMarcas();
@@ -54,8 +52,16 @@ export class MarcaComponent implements OnInit {
   }
 
   eliminar(id: string) {
-    if (confirm('¿Estás seguro de eliminar esta marca?')) {
-      this.marcaService.delete(id).then(() => this.cargarMarcas());
-    }
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px',
+      data: {
+        message: '¿Estás seguro de que deseas eliminar este registro?',
+      },
+    });
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result) {
+        this.marcaService.delete(id).then(() => this.cargarMarcas());
+      }
+    });
   }
 }

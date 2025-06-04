@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
-  Auth,
   User,
   onAuthStateChanged,
   createUserWithEmailAndPassword,
@@ -14,7 +13,7 @@ import {
   signInWithPopup,
   sendPasswordResetEmail,
 } from 'firebase/auth';
-import { getDatabase, set } from 'firebase/database';
+import { ref, set, get, child } from 'firebase/database';
 
 import { auth, db } from '../../../firebase-config';
 
@@ -74,21 +73,21 @@ export class AuthServicesFirebase {
     tiendaId: string;
     rolId: string;
     activo: boolean;
+    fechaCreacion?: Date;
+    fechaActualizacion?: Date;
+    avatar?: string[];
     password: string;
   }): Promise<string | void> {
     try {
-      const result = await createUserWithEmailAndPassword(auth, user.correo, user.password);
-      this.UserData = result.user;
-
+      const result = await createUserWithEmailAndPassword(
+        auth,
+        user.correo,
+        user.password,
+      );
       const uid = result.user.uid;
-
-      // ✅ Asegúrate que esta línea esté ANTES de usar `ref`
-      const db = getDatabase();
-
-      // ✅ `ref()` debe ir después de `getDatabase()`
+      this.UserData = result.user;
       const userRef = ref(db, `usuarios/${uid}`);
 
-      // ✅ set() espera un DatabaseReference, no un void
       await set(userRef, {
         nombre: user.nombre,
         correo: user.correo,
@@ -109,10 +108,10 @@ export class AuthServicesFirebase {
 
       return uid;
     } catch (error: any) {
+      console.error('Error al registrar usuario:', error);
       window.alert(error.message);
     }
   }
-
   //Login Method
   login(email: string, password: string) {
     return signInWithEmailAndPassword(auth, email, password)
@@ -163,7 +162,91 @@ export class AuthServicesFirebase {
 
     return this.user$.pipe(map((user) => !!user));
   }
-}
-function ref(db: any, arg1: string) {
-  throw new Error('Function not implemented.');
+
+  async getUsers(): Promise<any[]> {
+    const dbRef = ref(db);
+
+    try {
+      const [usersSnapshot, rolesSnapshot,tiendasSnapshot] = await Promise.all([
+        get(child(dbRef, 'usuarios')),
+        get(child(dbRef, 'roles')),
+        get(child(dbRef, 'tiendas')),
+
+      ]);
+
+      const rolesMap = rolesSnapshot.exists() ? rolesSnapshot.val() : {};
+      const tiendasMap = tiendasSnapshot.exists() ? tiendasSnapshot.val() : {};
+
+      if (usersSnapshot.exists()) {
+        const data = usersSnapshot.val();
+        return Object.entries(data)
+          .filter(
+            ([_, value]: [string, any]) =>
+              value &&
+              typeof value === 'object' &&
+              'nombre' in value &&
+              'correo' in value &&
+              'rolId' in value,
+          )
+          .map(([key, value]: [string, any]) => ({
+            id: key,
+            ...value,
+            firstName: value.nombre?.split(' ')[0] || '',
+            lastName: value.nombre?.split(' ')[2] || '',
+            phoneNumber: value.phoneNumber,
+            email: value.correo,
+            role: rolesMap[value.rolId]?.nombre || value.rolId,
+            store: tiendasMap[value.tiendaId]?.nombre || value.tiendaId,
+            disabled: !value.activo,
+            avatar: [],
+          }));
+      } else {
+        return [];
+      }
+    } catch (error) {
+      console.error('Error al obtener usuarios o roles:', error);
+      return [];
+    }
+  }
+
+  async getUserById(userId: string): Promise<any | null> {
+    const dbRef = ref(db);
+  
+    try {
+      // Obtenemos el usuario
+      const userSnapshot = await get(child(dbRef, `usuarios/${userId}`));
+  
+      if (!userSnapshot.exists()) {
+        return null;
+      }
+  
+      const userData = userSnapshot.val();
+  
+      // Obtenemos los roles y tiendas
+      const [rolesSnapshot, tiendasSnapshot] = await Promise.all([
+        get(child(dbRef, 'roles')),
+        get(child(dbRef, 'tiendas')),
+      ]);
+  
+      const rolesMap = rolesSnapshot.exists() ? rolesSnapshot.val() : {};
+      const tiendasMap = tiendasSnapshot.exists() ? tiendasSnapshot.val() : {};
+  
+      return {
+        id: userId,
+        ...userData,
+        firstName: userData.nombre?.split(' ')[0] || '',
+        lastName: userData.nombre?.split(' ')[1] || '',
+        phoneNumber: userData.phoneNumber,
+        email: userData.correo,
+        role: rolesMap[userData.rolId]?.nombre || userData.rolId, // Nombre del rol
+        store: tiendasMap[userData.tiendaId]?.nombre || userData.tiendaId, // Nombre de la tienda
+        disabled: !userData.activo,
+        avatar: [],
+      };
+    } catch (error) {
+      console.error(`Error al obtener el usuario con ID ${userId}:`, error);
+      return null;
+    }
+  }
+  
 }
